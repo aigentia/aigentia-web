@@ -6,16 +6,14 @@ class AigentiaApp {
     this.threadInner = document.getElementById('thread-inner');
     this.inputField  = document.getElementById('input-field');
     this.sendBtn     = document.getElementById('send-btn');
-    this.starters    = document.getElementById('starters');
     this.sidebar     = document.getElementById('sidebar');
     this.sidebarMark = document.getElementById('sidebar-mark');
     this.themeToggle = document.getElementById('theme-toggle');
     this.themeLabel  = document.getElementById('theme-label');
     this.sidebarOverlay = document.getElementById('sidebar-overlay');
 
-    this.isTyping      = false;
-    this.typingTimer   = null;
-    this.startersShown = true;
+    this.isTyping    = false;
+    this.typingTimer = null;
 
     this.init();
   }
@@ -86,20 +84,32 @@ class AigentiaApp {
   /* ── Sidebar ───────────────────────────────────────────── */
 
   setupSidebar() {
-    // Desktop: brand lockup tap returns to welcome
-    // Mobile: brand lockup tap expands/collapses the icon strip
     document.getElementById('sidebar-lockup')?.addEventListener('click', () => {
       if (window.innerWidth <= 768) {
-        this.sidebar.classList.contains('expanded')
-          ? this.closeSidebar()
-          : this.openSidebar();
+        this.sidebar.classList.contains('expanded') ? this.closeSidebar() : this.openSidebar();
       } else {
         this.triggerResponse('welcome');
       }
     });
 
-    // Overlay tap closes sidebar
     this.sidebarOverlay?.addEventListener('click', () => this.closeSidebar());
+
+    // Desktop collapse toggle
+    document.getElementById('sidebar-collapse')?.addEventListener('click', () => {
+      this.toggleSidebarCollapse();
+    });
+    document.getElementById('sidebar-collapse')?.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this.toggleSidebarCollapse(); }
+    });
+  }
+
+  toggleSidebarCollapse() {
+    const collapsed = this.sidebar.classList.toggle('collapsed');
+    const icon = document.querySelector('#sidebar-collapse [data-lucide]');
+    if (icon) {
+      icon.setAttribute('data-lucide', collapsed ? 'panel-left-open' : 'panel-left-close');
+      if (window.lucide) lucide.createIcons({ nodes: [icon] });
+    }
   }
 
   openSidebar() {
@@ -175,7 +185,6 @@ class AigentiaApp {
     if (!text || this.isTyping) return;
     this.inputField.value = '';
     this.inputField.style.height = 'auto';
-    this.hideStarters();
     this.addUserMessage(text);
     const key = this.matchInput(text);
     this.triggerResponse(key || 'unknown');
@@ -222,28 +231,32 @@ class AigentiaApp {
     document.body.removeChild(ta);
   }
 
-  /* ── Starters ──────────────────────────────────────────── */
+  /* ── Starters (sidebar chat-history style) ─────────────── */
 
   renderStarters() {
-    if (!this.starters) return;
+    const container = document.getElementById('sidebar-starters');
+    if (!container) return;
     STARTERS.forEach(s => {
-      const btn = document.createElement('button');
-      btn.className = 'starter-btn';
-      btn.textContent = s.label;
-      btn.addEventListener('click', () => {
-        this.hideStarters();
+      const item = document.createElement('div');
+      item.className = 'sidebar-starter-item';
+      item.setAttribute('role', 'button');
+      item.setAttribute('tabindex', '0');
+      item.innerHTML = `
+        <svg data-lucide="message-square" stroke-width="1.5"></svg>
+        <span class="sidebar-starter-text">${s.label}</span>
+      `;
+      const activate = () => {
         this.addUserMessage(s.label);
         this.triggerResponse(s.key);
+        if (window.innerWidth <= 768) this.closeSidebar();
+      };
+      item.addEventListener('click', activate);
+      item.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); }
       });
-      this.starters.appendChild(btn);
+      container.appendChild(item);
     });
-  }
-
-  hideStarters() {
-    if (this.startersShown) {
-      this.starters.classList.add('hidden');
-      this.startersShown = false;
-    }
+    if (window.lucide) lucide.createIcons({ nodes: container.querySelectorAll('[data-lucide]') });
   }
 
   /* ── Core response engine ──────────────────────────────── */
@@ -252,6 +265,9 @@ class AigentiaApp {
     if (this.isTyping) return;
     const content = CONTENT[key] || CONTENT.unknown;
     this.setActiveNav(key);
+
+    // Clear previous response — single-response view
+    this.threadInner.innerHTML = '';
 
     const msgEl = this.createAgentMessage();
     this.threadInner.appendChild(msgEl);
@@ -466,7 +482,6 @@ class AigentiaApp {
       const label = content.chipLabel || content.title;
       chip.innerHTML = `<svg data-lucide="corner-down-right" stroke-width="1.5"></svg> ${label}`;
       chip.addEventListener('click', () => {
-        this.hideStarters();
         this.addUserMessage(label);
         this.triggerResponse(key);
       });

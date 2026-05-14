@@ -20,13 +20,9 @@
   <!-- ── Sidebar ──────────────────────────────────────────── -->
   <aside id="sidebar">
 
-    <!-- Brand lockup (dark, with inline static cream SVG + JS-controlled animation) -->
+    <!-- Brand lockup (dark, inline static cream SVG + JS-controlled animation) -->
     <div class="ag-lockup ag-dark" id="sidebar-lockup">
       <div class="ag-mark" id="sidebar-mark">
-        <!--
-          Static cream mark inlined so JS can add/remove ag-animated class.
-          ID renamed from "sp" to "ag-sc" to avoid conflicts if other SVGs are added.
-        -->
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
              viewBox="0 0 900 900" aria-hidden="true" focusable="false">
           <defs>
@@ -145,23 +141,38 @@
 
     <hr class="sidebar-rule">
 
-    <!-- Nav links (rendered by JS) -->
-    <nav id="sidebar-nav" aria-label="Primary navigation"></nav>
+    <!-- Scrollable middle: nav items + conversation starters -->
+    <div id="sidebar-scroll">
 
-    <!-- Footer: theme toggle -->
+      <nav id="sidebar-nav" aria-label="Primary navigation"></nav>
+
+      <hr class="sidebar-rule sidebar-section-rule">
+
+      <div id="sidebar-starters-section">
+        <div class="sidebar-starters-label">Get Started</div>
+        <div id="sidebar-starters" role="group" aria-label="Conversation starters"></div>
+      </div>
+
+    </div><!-- /#sidebar-scroll -->
+
+    <!-- Footer: theme + collapse -->
     <div id="sidebar-footer">
       <div class="theme-toggle" id="theme-toggle" role="button" tabindex="0" aria-label="Toggle theme">
         <svg data-lucide="monitor" stroke-width="1.5" aria-hidden="true"></svg>
         <span id="theme-label">System</span>
       </div>
+      <div class="sidebar-collapse" id="sidebar-collapse" role="button" tabindex="0" aria-label="Collapse sidebar">
+        <svg data-lucide="panel-left-close" stroke-width="1.5" aria-hidden="true"></svg>
+        <span class="sidebar-collapse-label">Collapse</span>
+      </div>
     </div>
 
   </aside><!-- /#sidebar -->
 
-  <!-- Mobile overlay (closes sidebar on tap) -->
+  <!-- Mobile overlay (closes expanded sidebar on tap) -->
   <div id="sidebar-overlay" aria-hidden="true"></div>
 
-  <!-- Mobile sidebar toggle -->
+  <!-- Mobile sidebar toggle (hidden via CSS — icon strip replaces it) -->
   <button id="sidebar-toggle" aria-label="Open navigation" aria-expanded="false">
     <svg data-lucide="panel-left" stroke-width="1.5" width="18" height="18"></svg>
   </button>
@@ -169,51 +180,49 @@
   <!-- ── Central Canvas ──────────────────────────────────── -->
   <main id="canvas" role="main">
 
-    <!-- Conversation thread -->
-    <div id="thread" aria-live="polite" aria-label="Conversation">
-      <div class="thread-inner" id="thread-inner"></div>
-    </div>
+    <!-- Chat window -->
+    <div id="chat-window">
 
-    <!-- Prompt area -->
-    <div id="prompt-area">
-      <div class="prompt-inner">
+      <!-- Conversation thread -->
+      <div id="thread" aria-live="polite" aria-label="Conversation">
+        <div class="thread-inner" id="thread-inner"></div>
+      </div>
 
-        <!-- Conversation starters -->
-        <div id="starters" role="group" aria-label="Conversation starters"></div>
+      <!-- Prompt area -->
+      <div id="prompt-area">
+        <div class="prompt-inner">
+          <div class="input-row">
+            <textarea
+              id="input-field"
+              rows="1"
+              placeholder="Ask anything about AI agents, governance, or AiGENTiA…"
+              aria-label="Message input"
+              autocomplete="off"
+              spellcheck="false"
+            ></textarea>
+            <button id="send-btn" aria-label="Send message">
+              <svg data-lucide="arrow-up" stroke-width="2"></svg>
+            </button>
+          </div>
+        </div><!-- /.prompt-inner -->
+      </div><!-- /#prompt-area -->
 
-        <!-- Input row -->
-        <div class="input-row">
-          <textarea
-            id="input-field"
-            rows="1"
-            placeholder="Ask anything about AI agents, governance, or AiGENTiA…"
-            aria-label="Message input"
-            autocomplete="off"
-            spellcheck="false"
-          ></textarea>
-          <button id="send-btn" aria-label="Send message">
-            <svg data-lucide="arrow-up" stroke-width="2"></svg>
-          </button>
-        </div>
-
-      </div><!-- /.prompt-inner -->
-    </div><!-- /#prompt-area -->
+    </div><!-- /#chat-window -->
 
   </main><!-- /#canvas -->
 
 </div><!-- /#app -->
 
-<!-- Lucide Icons (thin line style) -->
+<!-- Lucide Icons -->
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 
-<!-- Content & Assessments (before app.js) -->
+<!-- Content & Assessments -->
 <script src="content.js"></script>
 <script src="assessments.js"></script>
 
 <!-- Application controller -->
 <script src="app.js"></script>
 
-<!-- Init Lucide icons after DOM is ready (app.js handles dynamic icons; this covers static ones) -->
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     if (window.lucide) lucide.createIcons();

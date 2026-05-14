@@ -110,6 +110,12 @@ const CONTENT = {
     followups: ['governance', 'how-we-work', 'portfolio'],
   },
 
+  calendar: {
+    title: 'Calendar & Events',
+    text: `AiGENTiA hosts a rolling programme of briefings, workshops and open assessments for leadership teams navigating AI adoption.\n\n**Upcoming:**\n· AI Readiness Workshops — Berlin & Online, Q3 2025\n· Agent Economy Briefing — Online, Monthly\n· EU AI Act Compliance Clinic — Frankfurt, Q4 2025\n· Token Economics Masterclass — Online, Quarterly\n\nAll events are small-format, invitation-only or limited-registration — designed for substantive dialogue rather than broadcast.\n\nThe AiGENTiA Advisory retainer includes standing access to all briefings and events as a standard component.\n\n**Register interest or request a private briefing:**\n· Email: [copy:hello@aigentia.com]`,
+    followups: ['ai-advisory', 'how-we-work', 'contact'],
+  },
+
   unknown: {
     title: 'AiGENTiA',
     text: `I don't have specific information on that topic in my current scope.\n\nI can tell you about AiGENTiA's services, methodology, and the forces shaping the agent economy. You can also begin one of our three assessments — AI Readiness, AI Finance, or AI Token Economics — directly from here.\n\nWhat would you like to explore?`,
@@ -124,6 +130,7 @@ const NAV_ITEMS = [
   { key: 'ai-readiness',    label: 'AI Readiness',      icon: 'bar-chart-2' },
   { key: 'ai-finance',      label: 'AI Finance',        icon: 'trending-up' },
   { key: 'tokenization',    label: 'Token Economics',   icon: 'coins' },
+  { key: 'calendar',        label: 'Calendar & Events', icon: 'calendar' },
   { key: 'contact',         label: 'Contact the Agent', icon: 'mail' },
 ];
 
@@ -184,4 +191,8 @@ const TRIGGER_MAP = {
   'ai training':                        'ai-training',
   'change management':                  'ai-training',
   'training':                           'ai-training',
+  'calendar':                           'calendar',
+  'events':                             'calendar',
+  'calendar and events':                'calendar',
+  'upcoming events':                    'calendar',
 };
