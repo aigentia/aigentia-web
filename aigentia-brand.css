@@ -1,0 +1,232 @@
+/* ============================================================
+   AiGENTiA — Brand Stylesheet
+   Requires: aigentia-tokens.css
+   ============================================================ */
+
+/* ── Reset helpers ─────────────────────────────────────────── */
+.ag-lockup *,
+.ag-lockup *::before,
+.ag-lockup *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── Lockup container ──────────────────────────────────────── */
+/*
+  Usage:
+    <div class="ag-lockup ag-light"> … </div>   light bg (cream)
+    <div class="ag-lockup ag-dark">  … </div>   dark bg  (indigo)
+*/
+.ag-lockup {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  align-items: center;
+  padding: 26px 24px 30px;
+}
+
+.ag-lockup.ag-light { background: var(--ag-cream); }
+.ag-lockup.ag-dark  { background: var(--ag-deep);  }
+
+/* ── Mark ──────────────────────────────────────────────────── */
+.ag-mark {
+  width:  var(--ag-mark-size);
+  height: var(--ag-mark-size);
+  min-width: var(--ag-mark-size);
+  -webkit-flex-shrink: 0;
+  flex-shrink: 0;
+  display: block;
+}
+.ag-mark svg { display: block; width: 100%; height: 100%; }
+
+/* ── Text column ───────────────────────────────────────────── */
+.ag-text {
+  margin-left: var(--ag-mark-gap);
+  -webkit-flex: 1 1 auto;
+  flex: 1 1 auto;
+  min-width: 0;
+  height: var(--ag-mark-size);
+  position: relative;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+}
+
+/* ── Name + tag halves ─────────────────────────────────────── */
+.ag-name-half,
+.ag-tag-half {
+  height: calc(var(--ag-mark-size) / 2);
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* ── Name row ──────────────────────────────────────────────── */
+.ag-name {
+  font-family: var(--ag-font-name);
+  font-weight: var(--ag-weight-name);
+  font-size: var(--ag-size-name);
+  line-height: 1;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  width: 100%;
+}
+.ag-name span { display: inline-block; }
+
+/* ── Tagline row ───────────────────────────────────────────── */
+.ag-tag {
+  font-family: var(--ag-font-tag);
+  font-weight: var(--ag-weight-tag);
+  font-size: var(--ag-size-tag);
+  line-height: 1;
+  text-transform: uppercase;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  width: 100%;
+}
+.ag-tag span  { display: inline-block; }
+.ag-tag .ag-w { width: 0.48em; -webkit-flex-shrink: 0; flex-shrink: 0; display: inline-block; }
+
+/* ── Colors by theme ───────────────────────────────────────── */
+.ag-light .ag-name,
+.ag-light .ag-tag  { color: var(--ag-deep);  }
+.ag-dark  .ag-name,
+.ag-dark  .ag-tag  { color: var(--ag-cream); }
+
+/* ── Accent line ───────────────────────────────────────────── */
+.ag-accent {
+  position: absolute;
+  top: var(--ag-accent-top);
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--ag-bronze);
+  -webkit-transform: translateY(-0.5px);
+  transform: translateY(-0.5px);
+}
+
+/* ── Animation ─────────────────────────────────────────────── */
+@-webkit-keyframes ag-pulse {
+  0%,  100% { opacity: 1;    }
+  50%        { opacity: 0.12; }
+}
+@keyframes ag-pulse {
+  0%,  100% { opacity: 1;    }
+  50%        { opacity: 0.12; }
+}
+
+/* ── Utility: page backgrounds ─────────────────────────────── */
+.ag-bg-light { background: var(--ag-cream); }
+.ag-bg-dark  { background: var(--ag-deep);  }
+.ag-bg-bronze{ background: var(--ag-bronze);}
+
+/* ── Utility: text colors ──────────────────────────────────── */
+.ag-text-deep   { color: var(--ag-deep);   }
+.ag-text-cream  { color: var(--ag-cream);  }
+.ag-text-bronze { color: var(--ag-bronze); }
+
+/* ── Utility: dividers ─────────────────────────────────────── */
+.ag-rule {
+  border: none;
+  border-top: 1px solid var(--ag-bronze);
+  margin: 0;
+}
+
+
+/* ── Animated mark ─────────────────────────────────────────
+   Add class "ag-animated" to .ag-mark to trigger the radial
+   pulse. Works with the HTML lockup component.
+   ---------------------------------------------------------- */
+.ag-animated use {
+  -webkit-animation: ag-pulse 3s ease-in-out infinite;
+          animation: ag-pulse 3s ease-in-out infinite;
+}
+/* Per-sparkle delays — radial wave from centre outward */
+.ag-animated use:nth-child(1){animation-delay:1.54s;-webkit-animation-delay:1.54s}
+.ag-animated use:nth-child(2){animation-delay:1.35s;-webkit-animation-delay:1.35s}
+.ag-animated use:nth-child(3){animation-delay:1.28s;-webkit-animation-delay:1.28s}
+.ag-animated use:nth-child(4){animation-delay:1.09s;-webkit-animation-delay:1.09s}
+.ag-animated use:nth-child(5){animation-delay:1.07s;-webkit-animation-delay:1.07s}
+.ag-animated use:nth-child(6){animation-delay:1.09s;-webkit-animation-delay:1.09s}
+.ag-animated use:nth-child(7){animation-delay:0.93s;-webkit-animation-delay:0.93s}
+.ag-animated use:nth-child(8){animation-delay:0.92s;-webkit-animation-delay:0.92s}
+.ag-animated use:nth-child(9){animation-delay:0.85s;-webkit-animation-delay:0.85s}
+.ag-animated use:nth-child(10){animation-delay:0.82s;-webkit-animation-delay:0.82s}
+.ag-animated use:nth-child(11){animation-delay:0.68s;-webkit-animation-delay:0.68s}
+.ag-animated use:nth-child(12){animation-delay:0.83s;-webkit-animation-delay:0.83s}
+.ag-animated use:nth-child(13){animation-delay:0.83s;-webkit-animation-delay:0.83s}
+.ag-animated use:nth-child(14){animation-delay:0.65s;-webkit-animation-delay:0.65s}
+.ag-animated use:nth-child(15){animation-delay:0.65s;-webkit-animation-delay:0.65s}
+.ag-animated use:nth-child(16){animation-delay:0.83s;-webkit-animation-delay:0.83s}
+.ag-animated use:nth-child(17){animation-delay:0.83s;-webkit-animation-delay:0.83s}
+.ag-animated use:nth-child(18){animation-delay:0.48s;-webkit-animation-delay:0.48s}
+.ag-animated use:nth-child(19){animation-delay:0.47s;-webkit-animation-delay:0.47s}
+.ag-animated use:nth-child(20){animation-delay:0.57s;-webkit-animation-delay:0.57s}
+.ag-animated use:nth-child(21){animation-delay:0.57s;-webkit-animation-delay:0.57s}
+.ag-animated use:nth-child(22){animation-delay:0.92s;-webkit-animation-delay:0.92s}
+.ag-animated use:nth-child(23){animation-delay:0.93s;-webkit-animation-delay:0.93s}
+.ag-animated use:nth-child(24){animation-delay:0.28s;-webkit-animation-delay:0.28s}
+.ag-animated use:nth-child(25){animation-delay:0.38s;-webkit-animation-delay:0.38s}
+.ag-animated use:nth-child(26){animation-delay:0.38s;-webkit-animation-delay:0.38s}
+.ag-animated use:nth-child(27){animation-delay:0.65s;-webkit-animation-delay:0.65s}
+.ag-animated use:nth-child(28){animation-delay:0.65s;-webkit-animation-delay:0.65s}
+.ag-animated use:nth-child(29){animation-delay:1.09s;-webkit-animation-delay:1.09s}
+.ag-animated use:nth-child(30){animation-delay:1.09s;-webkit-animation-delay:1.09s}
+.ag-animated use:nth-child(31){animation-delay:0.82s;-webkit-animation-delay:0.82s}
+.ag-animated use:nth-child(32){animation-delay:0.47s;-webkit-animation-delay:0.47s}
+.ag-animated use:nth-child(33){animation-delay:1.28s;-webkit-animation-delay:1.28s}
+.ag-animated use:nth-child(34){animation-delay:0.48s;-webkit-animation-delay:0.48s}
+.ag-animated use:nth-child(35){animation-delay:0.15s;-webkit-animation-delay:0.15s}
+.ag-animated use:nth-child(36){animation-delay:0.15s;-webkit-animation-delay:0.15s}
+.ag-animated use:nth-child(37){animation-delay:0.85s;-webkit-animation-delay:0.85s}
+.ag-animated use:nth-child(38){animation-delay:1.35s;-webkit-animation-delay:1.35s}
+.ag-animated use:nth-child(39){animation-delay:1.54s;-webkit-animation-delay:1.54s}
+.ag-animated use:nth-child(40){animation-delay:1.07s;-webkit-animation-delay:1.07s}
+.ag-animated use:nth-child(41){animation-delay:0.28s;-webkit-animation-delay:0.28s}
+.ag-animated use:nth-child(42){animation-delay:0.28s;-webkit-animation-delay:0.28s}
+.ag-animated use:nth-child(43){animation-delay:1.07s;-webkit-animation-delay:1.07s}
+.ag-animated use:nth-child(44){animation-delay:1.54s;-webkit-animation-delay:1.54s}
+.ag-animated use:nth-child(45){animation-delay:0.68s;-webkit-animation-delay:0.68s}
+.ag-animated use:nth-child(46){animation-delay:0.68s;-webkit-animation-delay:0.68s}
+.ag-animated use:nth-child(47){animation-delay:1.35s;-webkit-animation-delay:1.35s}
+.ag-animated use:nth-child(48){animation-delay:0.85s;-webkit-animation-delay:0.85s}
+.ag-animated use:nth-child(49){animation-delay:0.15s;-webkit-animation-delay:0.15s}
+.ag-animated use:nth-child(50){animation-delay:0.15s;-webkit-animation-delay:0.15s}
+.ag-animated use:nth-child(51){animation-delay:0.48s;-webkit-animation-delay:0.48s}
+.ag-animated use:nth-child(52){animation-delay:1.28s;-webkit-animation-delay:1.28s}
+.ag-animated use:nth-child(53){animation-delay:0.47s;-webkit-animation-delay:0.47s}
+.ag-animated use:nth-child(54){animation-delay:0.82s;-webkit-animation-delay:0.82s}
+.ag-animated use:nth-child(55){animation-delay:1.09s;-webkit-animation-delay:1.09s}
+.ag-animated use:nth-child(56){animation-delay:1.09s;-webkit-animation-delay:1.09s}
+.ag-animated use:nth-child(57){animation-delay:0.65s;-webkit-animation-delay:0.65s}
+.ag-animated use:nth-child(58){animation-delay:0.65s;-webkit-animation-delay:0.65s}
+.ag-animated use:nth-child(59){animation-delay:0.38s;-webkit-animation-delay:0.38s}
+.ag-animated use:nth-child(60){animation-delay:0.38s;-webkit-animation-delay:0.38s}
+.ag-animated use:nth-child(61){animation-delay:0.28s;-webkit-animation-delay:0.28s}
+.ag-animated use:nth-child(62){animation-delay:0.93s;-webkit-animation-delay:0.93s}
+.ag-animated use:nth-child(63){animation-delay:0.92s;-webkit-animation-delay:0.92s}
+.ag-animated use:nth-child(64){animation-delay:0.57s;-webkit-animation-delay:0.57s}
+.ag-animated use:nth-child(65){animation-delay:0.57s;-webkit-animation-delay:0.57s}
+.ag-animated use:nth-child(66){animation-delay:0.47s;-webkit-animation-delay:0.47s}
+.ag-animated use:nth-child(67){animation-delay:0.48s;-webkit-animation-delay:0.48s}
+.ag-animated use:nth-child(68){animation-delay:0.83s;-webkit-animation-delay:0.83s}
+.ag-animated use:nth-child(69){animation-delay:0.83s;-webkit-animation-delay:0.83s}
+.ag-animated use:nth-child(70){animation-delay:0.65s;-webkit-animation-delay:0.65s}
+.ag-animated use:nth-child(71){animation-delay:0.65s;-webkit-animation-delay:0.65s}
+.ag-animated use:nth-child(72){animation-delay:0.83s;-webkit-animation-delay:0.83s}
+.ag-animated use:nth-child(73){animation-delay:0.83s;-webkit-animation-delay:0.83s}
+.ag-animated use:nth-child(74){animation-delay:0.68s;-webkit-animation-delay:0.68s}
+.ag-animated use:nth-child(75){animation-delay:0.82s;-webkit-animation-delay:0.82s}
+.ag-animated use:nth-child(76){animation-delay:0.85s;-webkit-animation-delay:0.85s}
+.ag-animated use:nth-child(77){animation-delay:0.92s;-webkit-animation-delay:0.92s}
+.ag-animated use:nth-child(78){animation-delay:0.93s;-webkit-animation-delay:0.93s}
+.ag-animated use:nth-child(79){animation-delay:1.09s;-webkit-animation-delay:1.09s}
+.ag-animated use:nth-child(80){animation-delay:1.07s;-webkit-animation-delay:1.07s}
+.ag-animated use:nth-child(81){animation-delay:1.09s;-webkit-animation-delay:1.09s}
+.ag-animated use:nth-child(82){animation-delay:1.28s;-webkit-animation-delay:1.28s}
+.ag-animated use:nth-child(83){animation-delay:1.35s;-webkit-animation-delay:1.35s}
+.ag-animated use:nth-child(84){animation-delay:1.54s;-webkit-animation-delay:1.54s}

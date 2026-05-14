@@ -1,0 +1,31 @@
+/* ============================================================
+   AiGENTiA — Design Tokens
+   Single source of truth for all brand values.
+   Link this file before any other AiGENTiA stylesheet.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400&family=Inter:wght@400&display=swap');
+
+:root {
+
+  /* ── Colors ─────────────────────────────────────────────── */
+  --ag-deep:    #221D5C;   /* Deep Indigo  — primary brand color  */
+  --ag-cream:   #F6F1E7;   /* Warm Cream   — primary background    */
+  --ag-bronze:  #5E4B38;   /* Ancient Bronze — accent lines only   */
+
+  /* ── Typography ─────────────────────────────────────────── */
+  --ag-font-name:    "Cormorant Garamond", serif;
+  --ag-font-tag:     "Inter", sans-serif;
+  --ag-weight-name:  400;
+  --ag-weight-tag:   400;
+  --ag-size-name:    30px;
+  --ag-size-tag:     10.5px;
+  --ag-ls-name:      0.05em;   /* letter-spacing — name (space-between handles spread) */
+  --ag-ls-tag:       0.05em;   /* letter-spacing — tagline                             */
+
+  /* ── Logo lockup dimensions ─────────────────────────────── */
+  --ag-mark-size:    92px;    /* logo mark square                  */
+  --ag-mark-gap:     20px;    /* gap between mark and text column  */
+  --ag-accent-top:   46px;    /* accent line vertical position (mark-size / 2) */
+
+}
