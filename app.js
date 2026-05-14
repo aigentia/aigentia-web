@@ -12,11 +12,9 @@ class AigentiaApp {
     this.themeToggle = document.getElementById('theme-toggle');
     this.themeLabel  = document.getElementById('theme-label');
     this.sidebarOverlay = document.getElementById('sidebar-overlay');
-    this.sidebarToggleBtn = document.getElementById('sidebar-toggle');
 
     this.isTyping      = false;
     this.typingTimer   = null;
-    this.activeNavKey  = null;
     this.startersShown = true;
 
     this.init();
@@ -26,6 +24,7 @@ class AigentiaApp {
     this.setupTheme();
     this.setupSidebar();
     this.setupInput();
+    this.setupCopyToClipboard();
     this.renderStarters();
     this.renderNavItems();
 
@@ -35,10 +34,11 @@ class AigentiaApp {
   /* ── Theme ─────────────────────────────────────────────── */
 
   setupTheme() {
-    const saved = localStorage.getItem('ag-theme');
-    const prefers = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    const current = saved || 'system';
-    this.applyTheme(current === 'system' ? prefers : current, current);
+    const saved    = localStorage.getItem('ag-theme');
+    const prefDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const stored   = saved || 'system';
+    const effective = stored === 'system' ? (prefDark ? 'dark' : 'light') : stored;
+    this.applyTheme(effective, stored);
     this.themeToggle.addEventListener('click', () => this.cycleTheme());
   }
 
@@ -61,7 +61,6 @@ class AigentiaApp {
   updateThemeLabel(stored) {
     const labels = { system: 'System', light: 'Light', dark: 'Dark' };
     if (this.themeLabel) this.themeLabel.textContent = labels[stored] || 'Theme';
-
     const iconEl = this.themeToggle.querySelector('[data-lucide]');
     if (!iconEl) return;
     const icons = { system: 'monitor', light: 'sun', dark: 'moon' };
@@ -78,27 +77,30 @@ class AigentiaApp {
   /* ── Sidebar ───────────────────────────────────────────── */
 
   setupSidebar() {
-    if (this.sidebarToggleBtn) {
-      this.sidebarToggleBtn.addEventListener('click', () => this.openSidebar());
-    }
-    if (this.sidebarOverlay) {
-      this.sidebarOverlay.addEventListener('click', () => this.closeSidebar());
-    }
-    document.getElementById('sidebar-lockup')
-      ?.addEventListener('click', () => {
-        if (window.innerWidth <= 768) this.closeSidebar();
+    // Desktop: brand lockup tap returns to welcome
+    // Mobile: brand lockup tap expands/collapses the icon strip
+    document.getElementById('sidebar-lockup')?.addEventListener('click', () => {
+      if (window.innerWidth <= 768) {
+        this.sidebar.classList.contains('expanded')
+          ? this.closeSidebar()
+          : this.openSidebar();
+      } else {
         this.triggerResponse('welcome');
-      });
+      }
+    });
+
+    // Overlay tap closes sidebar
+    this.sidebarOverlay?.addEventListener('click', () => this.closeSidebar());
   }
 
   openSidebar() {
-    this.sidebar.classList.add('open');
+    this.sidebar.classList.add('expanded');
     this.sidebarOverlay.classList.add('visible');
     document.body.style.overflow = 'hidden';
   }
 
   closeSidebar() {
-    this.sidebar.classList.remove('open');
+    this.sidebar.classList.remove('expanded');
     this.sidebarOverlay.classList.remove('visible');
     document.body.style.overflow = '';
   }
@@ -110,13 +112,18 @@ class AigentiaApp {
       const el = document.createElement('div');
       el.className = 'nav-item';
       el.dataset.key = item.key;
+      el.setAttribute('role', 'button');
+      el.setAttribute('tabindex', '0');
       el.innerHTML = `
         <svg data-lucide="${item.icon}" class="nav-icon" stroke-width="1.5"></svg>
         <span class="nav-label">${item.label}</span>
       `;
-      el.addEventListener('click', () => {
-        if (window.innerWidth <= 768) this.closeSidebar();
-        this.handleNavClick(item.key);
+      el.addEventListener('click', () => this.handleNavClick(item.key));
+      el.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          this.handleNavClick(item.key);
+        }
       });
       nav.appendChild(el);
     });
@@ -127,7 +134,8 @@ class AigentiaApp {
     document.querySelectorAll('.nav-item').forEach(el => {
       el.classList.toggle('active', el.dataset.key === key);
     });
-    this.activeNavKey = key;
+    // On mobile, always collapse after selection
+    if (window.innerWidth <= 768) this.closeSidebar();
     this.triggerResponse(key);
   }
 
@@ -161,7 +169,7 @@ class AigentiaApp {
     this.hideStarters();
     this.addUserMessage(text);
     const key = this.matchInput(text);
-    this.triggerResponse(key || 'unknown', text);
+    this.triggerResponse(key || 'unknown');
   }
 
   matchInput(text) {
@@ -170,6 +178,39 @@ class AigentiaApp {
       if (t.includes(phrase)) return key;
     }
     return null;
+  }
+
+  /* ── Copy to clipboard ─────────────────────────────────── */
+
+  setupCopyToClipboard() {
+    this.thread.addEventListener('click', e => {
+      const copyable = e.target.closest('.copyable');
+      if (!copyable) return;
+      const text = copyable.dataset.copy;
+
+      const doConfirm = () => {
+        const confirm = copyable.querySelector('.copy-confirm');
+        confirm.classList.add('visible');
+        setTimeout(() => confirm.classList.remove('visible'), 1800);
+      };
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(doConfirm).catch(() => this.fallbackCopy(text, doConfirm));
+      } else {
+        this.fallbackCopy(text, doConfirm);
+      }
+    });
+  }
+
+  fallbackCopy(text, cb) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.cssText = 'position:fixed;opacity:0;top:0;left:0';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    try { document.execCommand('copy'); cb(); } catch (_) {}
+    document.body.removeChild(ta);
   }
 
   /* ── Starters ──────────────────────────────────────────── */
@@ -246,7 +287,7 @@ class AigentiaApp {
 
   createAgentMessage() {
     const effective = document.documentElement.getAttribute('data-theme') || 'light';
-    const markSrc = effective === 'dark' ? 'aigentia-mark-cream.svg' : 'aigentia-mark-deep.svg';
+    const markSrc   = effective === 'dark' ? 'aigentia-mark-cream.svg' : 'aigentia-mark-deep.svg';
 
     const msg = document.createElement('div');
     msg.className = 'msg msg-agent';
@@ -276,55 +317,43 @@ class AigentiaApp {
     this.scrollToBottom();
   }
 
-  /* ── Typing engine ─────────────────────────────────────── */
+  /* ── Typing engine — 22ms/char, deliberate ────────────── */
 
   typeText(container, rawText, cursor, onComplete) {
-    const html = this.markdownToHtml(rawText);
-    let charIndex = 0;
-    let plainText = '';
-    let currentParagraph = null;
-
-    const segments = this.parseSegments(rawText);
-    let segIndex = 0;
-    let segCharIndex = 0;
-    let domBuilt = false;
+    const segments    = this.parseSegments(rawText);
     const domSegments = [];
 
-    const buildDomStructure = () => {
-      const frag = document.createDocumentFragment();
-      let lastBlock = null;
+    // Build the full DOM structure up front
+    const frag      = document.createDocumentFragment();
+    let lastBlock   = null;
 
-      segments.forEach((seg, i) => {
-        if (seg.type === 'para_break') {
-          lastBlock = null;
-        } else if (seg.type === 'list_item') {
-          let ul = (lastBlock && lastBlock.tagName === 'UL') ? lastBlock : null;
-          if (!ul) {
-            ul = document.createElement('ul');
-            frag.appendChild(ul);
-            lastBlock = ul;
-          }
-          const li = document.createElement('li');
-          ul.appendChild(li);
-          domSegments.push({ el: li, text: seg.text, inline: true });
+    segments.forEach(seg => {
+      if (seg.type === 'para_break') {
+        lastBlock = null;
+      } else if (seg.type === 'list_item') {
+        let ul = (lastBlock && lastBlock.tagName === 'UL') ? lastBlock : null;
+        if (!ul) {
+          ul = document.createElement('ul');
+          frag.appendChild(ul);
           lastBlock = ul;
-        } else {
-          if (!lastBlock || lastBlock.tagName !== 'P') {
-            lastBlock = document.createElement('p');
-            frag.appendChild(lastBlock);
-          }
-          domSegments.push({ el: lastBlock, text: seg.text, inline: true });
         }
-      });
+        const li = document.createElement('li');
+        ul.appendChild(li);
+        domSegments.push({ el: li, text: seg.text, isLi: true });
+      } else {
+        if (!lastBlock || lastBlock.tagName !== 'P') {
+          lastBlock = document.createElement('p');
+          frag.appendChild(lastBlock);
+        }
+        domSegments.push({ el: lastBlock, text: seg.text, isLi: false });
+        lastBlock = lastBlock; // keep same <p> for next text seg without break
+      }
+    });
 
-      container.insertBefore(frag, cursor);
-      domBuilt = true;
-    };
-
-    buildDomStructure();
+    container.insertBefore(frag, cursor);
 
     let dsIndex = 0;
-    let dsChar = 0;
+    let dsChar  = 0;
 
     const tick = () => {
       if (dsIndex >= domSegments.length) {
@@ -332,41 +361,36 @@ class AigentiaApp {
         return;
       }
 
-      const ds = domSegments[dsIndex];
+      const ds         = domSegments[dsIndex];
       const targetText = ds.text;
+      // 22ms average: range 20–24ms
+      const delay      = 20 + Math.floor(Math.random() * 5);
+      const chunkSize  = Math.random() < 0.2 ? 1 : Math.random() < 0.6 ? 2 : 3;
+      const end        = Math.min(dsChar + chunkSize, targetText.length);
+      const partial    = targetText.slice(0, end);
 
-      const charsPerTick = Math.random() < 0.15 ? 1 : (Math.random() < 0.6 ? 2 : 3);
-      const end = Math.min(dsChar + charsPerTick, targetText.length);
-
-      const rendered = this.renderInlineMarkdown(targetText.slice(0, end));
-
-      if (ds.el.tagName === 'LI') {
-        ds.el.innerHTML = rendered;
+      if (ds.isLi) {
+        ds.el.innerHTML = this.renderInlineMarkdown(partial);
       } else {
-        const existingSegCount = domSegments.slice(0, dsIndex).filter(s => s.el === ds.el).length;
-        const allSegsForEl = domSegments.filter(s => s.el === ds.el);
-        const mySegIdx = allSegsForEl.indexOf(ds);
-        let combinedHtml = '';
-        allSegsForEl.slice(0, mySegIdx).forEach(s => {
-          combinedHtml += this.renderInlineMarkdown(s.text);
-        });
-        combinedHtml += rendered;
-        ds.el.innerHTML = combinedHtml + (cursor.parentNode === ds.el ? '' : '');
+        // All segments sharing this <p> — render completed ones + current partial
+        const allForEl    = domSegments.filter(s => s.el === ds.el);
+        const myIdx       = allForEl.indexOf(ds);
+        let combined      = '';
+        allForEl.slice(0, myIdx).forEach(s => { combined += this.renderInlineMarkdown(s.text); });
+        combined += this.renderInlineMarkdown(partial);
+        ds.el.innerHTML = combined;
       }
 
-      if (cursor.parentNode !== ds.el) {
-        ds.el.appendChild(cursor);
-      }
+      // Keep cursor at end of current element
+      if (cursor.parentNode !== ds.el) ds.el.appendChild(cursor);
 
       dsChar = end;
-
       if (dsChar >= targetText.length) {
         dsIndex++;
         dsChar = 0;
       }
 
       this.scrollToBottom();
-      const delay = 8 + Math.random() * 8;
       this.typingTimer = setTimeout(tick, delay);
     };
 
@@ -375,18 +399,15 @@ class AigentiaApp {
 
   parseSegments(text) {
     const segments = [];
-    const lines = text.split('\n');
-    let buffer = '';
+    const lines    = text.split('\n');
+    let buffer     = '';
 
     const flushBuffer = () => {
-      if (buffer.trim()) {
-        segments.push({ type: 'text', text: buffer.trim() });
-      }
+      if (buffer.trim()) segments.push({ type: 'text', text: buffer.trim() });
       buffer = '';
     };
 
-    for (let i = 0; i < lines.length; i++) {
-      const line = lines[i];
+    for (const line of lines) {
       if (line.startsWith('· ') || line.startsWith('- ')) {
         flushBuffer();
         segments.push({ type: 'list_item', text: line.slice(2) });
@@ -402,10 +423,12 @@ class AigentiaApp {
     }
     flushBuffer();
 
-    return segments.filter((s, i) => {
-      if (s.type === 'para_break' && i === segments.length - 1) return false;
-      return true;
-    });
+    // Strip trailing para_break
+    while (segments.length && segments[segments.length - 1].type === 'para_break') {
+      segments.pop();
+    }
+
+    return segments;
   }
 
   renderInlineMarkdown(text) {
@@ -414,28 +437,10 @@ class AigentiaApp {
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
       .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-      .replace(/\*(.+?)\*/g, '<em>$1</em>');
-  }
-
-  markdownToHtml(text) {
-    const segments = this.parseSegments(text);
-    let html = '';
-    let inList = false;
-
-    segments.forEach(seg => {
-      if (seg.type === 'para_break') {
-        if (inList) { html += '</ul>'; inList = false; }
-      } else if (seg.type === 'list_item') {
-        if (!inList) { html += '<ul>'; inList = true; }
-        html += `<li>${this.renderInlineMarkdown(seg.text)}</li>`;
-      } else {
-        if (inList) { html += '</ul>'; inList = false; }
-        html += `<p>${this.renderInlineMarkdown(seg.text)}</p>`;
-      }
-    });
-
-    if (inList) html += '</ul>';
-    return html;
+      .replace(/\*(.+?)\*/g, '<em>$1</em>')
+      .replace(/\[copy:([^\]]+)\]/g,
+        '<span class="copyable" tabindex="0" role="button" aria-label="Tap to copy $1" data-copy="$1">$1<span class="copy-confirm" aria-hidden="true">Copied</span></span>'
+      );
   }
 
   /* ── Follow-up chips ───────────────────────────────────── */
@@ -449,10 +454,11 @@ class AigentiaApp {
       if (!content) return;
       const chip = document.createElement('button');
       chip.className = 'followup-chip';
-      chip.innerHTML = `<svg data-lucide="corner-down-right" stroke-width="1.5"></svg> ${content.title}`;
+      const label = content.chipLabel || content.title;
+      chip.innerHTML = `<svg data-lucide="corner-down-right" stroke-width="1.5"></svg> ${label}`;
       chip.addEventListener('click', () => {
         this.hideStarters();
-        this.addUserMessage(content.title);
+        this.addUserMessage(label);
         this.triggerResponse(key);
       });
       container.appendChild(chip);
@@ -468,12 +474,12 @@ class AigentiaApp {
     const assessment = ASSESSMENTS[assessmentKey];
     if (!assessment) return;
 
-    const card = document.createElement('div');
+    const card    = document.createElement('div');
     card.className = 'assessment-card';
 
-    const total = assessment.questions.length;
+    const total  = assessment.questions.length;
     let currentQ = 0;
-    let scores = [];
+    let scores   = [];
 
     const render = () => {
       card.innerHTML = '';
@@ -491,7 +497,7 @@ class AigentiaApp {
         return;
       }
 
-      const q = assessment.questions[currentQ];
+      const q   = assessment.questions[currentQ];
       const pct = Math.round((currentQ / total) * 100);
 
       const progressEl = document.createElement('div');
@@ -517,7 +523,7 @@ class AigentiaApp {
       const optionsEl = document.createElement('div');
       optionsEl.className = 'assessment-options';
 
-      q.options.forEach((opt, i) => {
+      q.options.forEach(opt => {
         const btn = document.createElement('button');
         btn.className = 'assessment-option';
         btn.innerHTML = `
@@ -544,8 +550,8 @@ class AigentiaApp {
   }
 
   renderAssessmentResult(card, assessment, scores) {
-    const total = scores.reduce((a, b) => a + b, 0);
-    const max = assessment.questions.length * 4;
+    const total  = scores.reduce((a, b) => a + b, 0);
+    const max    = assessment.questions.length * 4;
     const result = assessment.score(total);
 
     const resultEl = document.createElement('div');
@@ -566,12 +572,12 @@ class AigentiaApp {
 
     card.appendChild(resultEl);
 
-    const ctaBtn = resultEl.querySelector('.result-cta');
-    ctaBtn.addEventListener('click', () => {
-      const key = ctaBtn.dataset.cta;
-      const c = CONTENT[key];
+    resultEl.querySelector('.result-cta').addEventListener('click', e => {
+      const key = e.currentTarget.dataset.cta;
+      const c   = CONTENT[key];
       if (c) {
-        this.addUserMessage(c.title);
+        const label = c.chipLabel || c.title;
+        this.addUserMessage(label);
         this.triggerResponse(key);
       }
     });
@@ -582,11 +588,11 @@ class AigentiaApp {
   /* ── Logo animation ────────────────────────────────────── */
 
   startLogoAnimation() {
-    if (this.sidebarMark) this.sidebarMark.classList.add('ag-animated');
+    this.sidebarMark?.classList.add('ag-animated');
   }
 
   stopLogoAnimation() {
-    if (this.sidebarMark) this.sidebarMark.classList.remove('ag-animated');
+    this.sidebarMark?.classList.remove('ag-animated');
   }
 
   /* ── Utilities ─────────────────────────────────────────── */

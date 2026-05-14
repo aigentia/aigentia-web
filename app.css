@@ -730,71 +730,123 @@ body {
 .result-cta:hover { background: rgba(94, 75, 56, 0.1); }
 .result-cta svg { width: 12px; height: 12px; }
 
-/* ── Mobile sidebar toggle ────────────────────────────────── */
-#sidebar-toggle {
-  display: none;
-  position: fixed;
-  top: 14px;
-  left: 14px;
-  z-index: 30;
-  width: 36px;
-  height: 36px;
-  background: var(--ag-deep);
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  align-items: center;
-  justify-content: center;
-  color: var(--ag-cream);
-}
+/* ── Mobile sidebar toggle — hidden (icon strip replaces it) ── */
+#sidebar-toggle { display: none; }
 
 #sidebar-overlay {
   display: none;
   position: fixed;
-  inset: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
   background: rgba(34, 29, 92, 0.5);
   z-index: 15;
 }
+
+/* ── Copy to clipboard ────────────────────────────────────── */
+.copyable {
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-decoration-color: var(--ag-bronze);
+  text-underline-offset: 3px;
+  transition: opacity 0.14s ease;
+}
+
+.copyable:hover { opacity: 0.8; }
+
+.copy-confirm {
+  position: absolute;
+  bottom: calc(100% + 5px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--ag-bronze);
+  color: var(--ag-cream);
+  font-family: var(--ag-font-tag);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 7px;
+  border-radius: 2px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 10;
+}
+
+.copy-confirm.visible { opacity: 1; }
 
 /* ── Scrollbar (canvas thread on webkit) ──────────────────── */
 #thread::-webkit-scrollbar       { width: 4px; }
 #thread::-webkit-scrollbar-track { background: var(--scrollbar-track); }
 #thread::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 2px; }
 
-/* ── Responsive — mobile ──────────────────────────────────── */
+/* ── Responsive — mobile icon strip ──────────────────────────── */
 @media (max-width: 768px) {
+  /* Sidebar always visible as 52px icon strip */
   #sidebar {
     position: fixed;
     left: 0;
     top: 0;
     height: 100vh;
     z-index: 20;
-    transform: translateX(-100%);
-    width: 260px;
-    transition: transform 0.22s ease;
+    width: 52px;
+    transition: width 0.22s ease;
+    overflow: hidden;
+    flex-shrink: 0;
   }
 
-  #sidebar.open {
-    transform: translateX(0);
-  }
+  #sidebar.expanded { width: 260px; }
 
-  #sidebar-overlay.visible {
-    display: block;
-  }
+  /* Overlay starts after strip — never covers the strip */
+  #sidebar-overlay { left: 52px; }
+  #sidebar-overlay.visible { display: block; }
 
-  #sidebar-toggle {
-    display: flex;
-  }
-
+  /* Canvas always offset by strip width */
   #canvas {
-    width: 100%;
+    margin-left: 52px;
+    width: calc(100% - 52px);
   }
 
-  .thread-inner {
-    padding: 0 16px;
+  /* Collapsed strip: center the mark, hide text */
+  #sidebar:not(.expanded) .ag-lockup {
+    padding: 14px 0;
+    justify-content: center;
   }
 
-  #thread { padding: 56px 0 20px; }
+  #sidebar:not(.expanded) .ag-text,
+  #sidebar:not(.expanded) .ag-accent { display: none; }
+
+  /* Collapsed strip: center nav icons, hide labels */
+  #sidebar:not(.expanded) .nav-item {
+    justify-content: center;
+    padding: 13px 0;
+    gap: 0;
+  }
+
+  #sidebar:not(.expanded) .nav-label { display: none; }
+
+  /* Collapsed strip: center theme icon */
+  #sidebar:not(.expanded) #sidebar-footer { padding: 12px 0; }
+
+  #sidebar:not(.expanded) .theme-toggle {
+    justify-content: center;
+    padding: 8px 0;
+    gap: 0;
+  }
+
+  #sidebar:not(.expanded) .theme-toggle span { display: none; }
+
+  /* Sidebar rule hidden in strip mode */
+  #sidebar:not(.expanded) .sidebar-rule { margin: 0 8px; }
+
+  /* Content adjustments */
+  .thread-inner { padding: 0 16px; }
+
+  #thread { padding: 32px 0 20px; }
 
   #prompt-area { padding: 12px 16px 16px; }
 

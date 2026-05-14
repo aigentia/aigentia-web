@@ -34,7 +34,7 @@ const CONTENT = {
 
   contact: {
     title: 'Contact the Agent',
-    text: `Every engagement starts with a conversation.\n\nThe best first step is always an AI Readiness Assessment — a structured diagnostic that maps where your organisation actually stands, with no vendor agenda and no predetermined conclusion.\n\n**Get in touch:**\n\n· Email: hello@aigentia.com\n· Web: aigentia.com\n· Founder: M. Cenan Demirel\n\nIf you would like to begin the AI Readiness Assessment directly, you can do so now — it takes approximately five minutes and produces an immediate readiness profile for your organisation.\n\nAiGENTiA · AI Management Agency · Agens Intelligens · 2025`,
+    text: `Every engagement starts with a conversation.\n\nThe best first step is always an AI Readiness Assessment — a structured diagnostic that maps where your organisation actually stands, with no vendor agenda and no predetermined conclusion.\n\n**Get in touch:**\n\n· Email: [copy:hello@aigentia.com]\n· Web: [copy:aigentia.com]\n· Founder: M. Cenan Demirel\n\nIf you would like to begin the AI Readiness Assessment directly, you can do so now — it takes approximately five minutes and produces an immediate readiness profile for your organisation.\n\nAiGENTiA · AI Management Agency · Agens Intelligens · 2025`,
     followups: ['ai-readiness', 'how-we-work', 'philosophy'],
   },
 
