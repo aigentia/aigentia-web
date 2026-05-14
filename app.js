@@ -69,9 +69,18 @@ class AigentiaApp {
   }
 
   updateAgentMarkTheme(effective) {
+    const staticSrc = effective === 'dark' ? 'aigentia-mark-on-deep.svg' : 'aigentia-mark-on-cream.svg';
     document.querySelectorAll('.msg-agent-mark img').forEach(img => {
-      img.src = effective === 'dark' ? 'aigentia-mark-cream.svg' : 'aigentia-mark-deep.svg';
+      if (img === this._currentMarkImg) return; // leave animating mark alone
+      img.src = staticSrc;
     });
+    // If a mark is mid-animation, update it to the correct animated variant
+    if (this._currentMarkImg) {
+      this._currentMarkImg.src = effective === 'dark'
+        ? 'aigentia-mark-animated-on-deep.svg'
+        : 'aigentia-mark-animated-on-cream.svg';
+      this._currentMarkStatic = staticSrc;
+    }
   }
 
   /* ── Sidebar ───────────────────────────────────────────── */
@@ -248,7 +257,7 @@ class AigentiaApp {
     this.threadInner.appendChild(msgEl);
     this.scrollToBottom();
 
-    this.startLogoAnimation();
+    this.startLogoAnimation(msgEl);
     this.isTyping = true;
     this.setSendDisabled(true);
 
@@ -287,7 +296,7 @@ class AigentiaApp {
 
   createAgentMessage() {
     const effective = document.documentElement.getAttribute('data-theme') || 'light';
-    const markSrc   = effective === 'dark' ? 'aigentia-mark-cream.svg' : 'aigentia-mark-deep.svg';
+    const markSrc   = effective === 'dark' ? 'aigentia-mark-on-deep.svg' : 'aigentia-mark-on-cream.svg';
 
     const msg = document.createElement('div');
     msg.className = 'msg msg-agent';
@@ -587,12 +596,34 @@ class AigentiaApp {
 
   /* ── Logo animation ────────────────────────────────────── */
 
-  startLogoAnimation() {
+  startLogoAnimation(msgEl) {
+    // Sidebar inline SVG
     this.sidebarMark?.classList.add('ag-animated');
+    // Chat window mark — swap to animated SVG
+    const effective = document.documentElement.getAttribute('data-theme') || 'light';
+    const animSrc   = effective === 'dark'
+      ? 'aigentia-mark-animated-on-deep.svg'
+      : 'aigentia-mark-animated-on-cream.svg';
+    const staticSrc = effective === 'dark'
+      ? 'aigentia-mark-on-deep.svg'
+      : 'aigentia-mark-on-cream.svg';
+    const markImg = msgEl?.querySelector('.msg-agent-mark img');
+    if (markImg) {
+      markImg.src = animSrc;
+      this._currentMarkImg    = markImg;
+      this._currentMarkStatic = staticSrc;
+    }
   }
 
   stopLogoAnimation() {
+    // Sidebar
     this.sidebarMark?.classList.remove('ag-animated');
+    // Chat window mark — restore static SVG
+    if (this._currentMarkImg) {
+      this._currentMarkImg.src = this._currentMarkStatic;
+      this._currentMarkImg     = null;
+      this._currentMarkStatic  = null;
+    }
   }
 
   /* ── Utilities ─────────────────────────────────────────── */
