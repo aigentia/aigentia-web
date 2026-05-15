@@ -25,7 +25,6 @@ class AigentiaApp {
     this.setupCopyToClipboard();
     this.renderStarters();
     this.renderNavItems();
-    this.renderExploreItems();
   }
 
   /* ── Theme ─────────────────────────────────────────────── */

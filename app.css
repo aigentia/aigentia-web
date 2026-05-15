@@ -126,13 +126,13 @@ body {
 /* Sidebar mark uses an img tag — theme handled by JS src-swap */
 #sidebar-mark img { display: block; width: 100%; height: 100%; }
 
-#sidebar .ag-mark  { width: 48px; height: 48px; min-width: 48px; }
-#sidebar .ag-text  { height: 48px; flex: 0 0 auto; }
+#sidebar .ag-mark  { width: 44px; height: 44px; min-width: 44px; }
+#sidebar .ag-text  { height: 44px; flex: 0 0 auto; }
 #sidebar .ag-name-half,
-#sidebar .ag-tag-half { height: 24px; }
+#sidebar .ag-tag-half { height: 22px; }
 #sidebar .ag-name  { font-size: 22px; justify-content: flex-start; letter-spacing: 0.25em; width: auto; }
 #sidebar .ag-tag   { font-size: 9px;  justify-content: flex-start; letter-spacing: 0.25em; width: auto; }
-#sidebar .ag-accent { top: 24px; left: 0; right: auto; width: 100%; }
+#sidebar .ag-accent { top: 22px; left: 0; right: auto; width: 100%; }
 
 /* ── Sidebar dividers ─────────────────────────────────────── */
 .sidebar-rule {
