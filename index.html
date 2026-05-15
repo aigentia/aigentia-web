@@ -21,7 +21,7 @@
   <aside id="sidebar">
 
     <!-- Brand lockup (dark, inline static cream SVG + JS-controlled animation) -->
-    <div class="ag-lockup ag-dark" id="sidebar-lockup">
+    <div class="ag-lockup" id="sidebar-lockup">
       <div class="ag-mark" id="sidebar-mark">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
              viewBox="0 0 900 900" aria-hidden="true" focusable="false">
@@ -180,12 +180,22 @@
   <!-- ── Central Canvas ──────────────────────────────────── -->
   <main id="canvas" role="main">
 
+    <!-- Canvas toolbar: theme toggle -->
+    <div id="canvas-toolbar">
+      <div id="theme-btn" role="button" tabindex="0" aria-label="Toggle theme">
+        <svg data-lucide="sun" stroke-width="1.5" aria-hidden="true"></svg>
+        <span id="theme-btn-label">Light</span>
+      </div>
+    </div>
+
     <!-- Chat window -->
     <div id="chat-window">
 
       <!-- Conversation thread -->
       <div id="thread" aria-live="polite" aria-label="Conversation">
-        <div class="thread-inner" id="thread-inner"></div>
+        <div class="thread-inner" id="thread-inner">
+          <div id="thread-spacer"></div>
+        </div>
       </div>
 
       <!-- Prompt area -->

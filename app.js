@@ -38,6 +38,10 @@ class AigentiaApp {
     const effective = stored === 'system' ? (prefDark ? 'dark' : 'light') : stored;
     this.applyTheme(effective, stored);
     this.themeToggle.addEventListener('click', () => this.cycleTheme());
+    document.getElementById('theme-btn')?.addEventListener('click', () => this.cycleTheme());
+    document.getElementById('theme-btn')?.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this.cycleTheme(); }
+    });
   }
 
   applyTheme(effective, stored) {
@@ -58,12 +62,20 @@ class AigentiaApp {
 
   updateThemeLabel(stored) {
     const labels = { system: 'System', light: 'Light', dark: 'Dark' };
+    const icons  = { system: 'monitor', light: 'sun', dark: 'moon' };
     if (this.themeLabel) this.themeLabel.textContent = labels[stored] || 'Theme';
     const iconEl = this.themeToggle.querySelector('[data-lucide]');
-    if (!iconEl) return;
-    const icons = { system: 'monitor', light: 'sun', dark: 'moon' };
-    iconEl.setAttribute('data-lucide', icons[stored] || 'monitor');
-    if (window.lucide) lucide.createIcons({ nodes: [iconEl] });
+    if (iconEl) {
+      iconEl.setAttribute('data-lucide', icons[stored] || 'monitor');
+      if (window.lucide) lucide.createIcons({ nodes: [iconEl] });
+    }
+    const btnLabel = document.getElementById('theme-btn-label');
+    if (btnLabel) btnLabel.textContent = labels[stored] || 'Theme';
+    const btnIcon = document.getElementById('theme-btn')?.querySelector('[data-lucide]');
+    if (btnIcon) {
+      btnIcon.setAttribute('data-lucide', icons[stored] || 'sun');
+      if (window.lucide) lucide.createIcons({ nodes: [btnIcon] });
+    }
   }
 
   updateAgentMarkTheme(effective) {
