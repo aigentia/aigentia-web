@@ -185,8 +185,21 @@
       <div id="hero-mark">
         <img id="hero-mark-img" src="aigentia-mark-deep.svg" alt="">
       </div>
-      <h1 id="hero-name">AiGENTiA</h1>
-      <p id="hero-tag">INTELLIGENT AGENCY</p>
+      <div id="hero-text">
+        <div id="hero-name">
+          <span>A</span><span>i</span><span>G</span><span>E</span>
+          <span>N</span><span>T</span><span>i</span><span>A</span>
+        </div>
+        <div id="hero-accent"></div>
+        <div id="hero-tag">
+          <span>I</span><span>N</span><span>T</span><span>E</span>
+          <span>L</span><span>L</span><span>I</span><span>G</span>
+          <span>E</span><span>N</span><span>T</span>
+          <span class="hero-w"></span>
+          <span>A</span><span>G</span><span>E</span><span>N</span>
+          <span>C</span><span>Y</span>
+        </div>
+      </div>
     </div>
 
     <!-- Header: shown when conversation is active -->
@@ -198,36 +211,43 @@
       </div>
     </div>
 
-    <!-- Chat window -->
-    <div id="chat-window">
-
-      <!-- Conversation thread -->
-      <div id="thread" aria-live="polite" aria-label="Conversation">
-        <div class="thread-inner" id="thread-inner">
-          <div id="thread-spacer"></div>
-        </div>
+    <!-- Chat row: mark beside the window (mark hidden in empty state) -->
+    <div id="canvas-chat-row">
+      <div id="chat-mark-col">
+        <img id="chat-mark-img" src="aigentia-mark-deep.svg" alt="">
       </div>
 
-      <!-- Prompt area -->
-      <div id="prompt-area">
-        <div class="prompt-inner">
-          <div class="input-row">
-            <textarea
-              id="input-field"
-              rows="1"
-              placeholder="Ask anything about AI agents, governance, or AiGENTiA…"
-              aria-label="Message input"
-              autocomplete="off"
-              spellcheck="false"
-            ></textarea>
-            <button id="send-btn" aria-label="Send message">
-              <svg data-lucide="arrow-up" stroke-width="2"></svg>
-            </button>
-          </div>
-        </div><!-- /.prompt-inner -->
-      </div><!-- /#prompt-area -->
+      <!-- Chat window -->
+      <div id="chat-window">
 
-    </div><!-- /#chat-window -->
+        <!-- Conversation thread -->
+        <div id="thread" aria-live="polite" aria-label="Conversation">
+          <div class="thread-inner" id="thread-inner">
+            <div id="thread-spacer"></div>
+          </div>
+        </div>
+
+        <!-- Prompt area -->
+        <div id="prompt-area">
+          <div class="prompt-inner">
+            <div class="input-row">
+              <textarea
+                id="input-field"
+                rows="1"
+                placeholder="Ask anything about AI agents, governance, or AiGENTiA…"
+                aria-label="Message input"
+                autocomplete="off"
+                spellcheck="false"
+              ></textarea>
+              <button id="send-btn" aria-label="Send message">
+                <svg data-lucide="arrow-up" stroke-width="2"></svg>
+              </button>
+            </div>
+          </div><!-- /.prompt-inner -->
+        </div><!-- /#prompt-area -->
+
+      </div><!-- /#chat-window -->
+    </div><!-- /#canvas-chat-row -->
 
   </main><!-- /#canvas -->
 

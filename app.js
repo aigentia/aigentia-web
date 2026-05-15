@@ -80,10 +80,8 @@ class AigentiaApp {
     const staticSrc = effective === 'dark' ? 'aigentia-mark-cream.svg' : 'aigentia-mark-deep.svg';
     const heroImg = document.getElementById('hero-mark-img');
     if (heroImg) heroImg.src = staticSrc;
-    document.querySelectorAll('.msg-agent-mark img').forEach(img => {
-      if (img === this._currentMarkImg) return;
-      img.src = staticSrc;
-    });
+    const chatMarkImg = document.getElementById('chat-mark-img');
+    if (chatMarkImg && chatMarkImg !== this._currentMarkImg) chatMarkImg.src = staticSrc;
     if (this._currentMarkImg) {
       this._currentMarkImg.src = effective === 'dark'
         ? 'aigentia-mark-animated-cream.svg'
@@ -328,18 +326,9 @@ class AigentiaApp {
   }
 
   createAgentMessage() {
-    const effective = document.documentElement.getAttribute('data-theme') || 'light';
-    const markSrc   = effective === 'dark' ? 'aigentia-mark-cream.svg' : 'aigentia-mark-deep.svg';
-
     const msg = document.createElement('div');
     msg.className = 'msg msg-agent';
     msg.innerHTML = `
-      <div class="msg-agent-header">
-        <div class="msg-agent-mark">
-          <img src="${markSrc}" alt="AiGENTiA">
-        </div>
-        <span class="msg-agent-label">AiGENTiA</span>
-      </div>
       <div class="msg-agent-body">
         <div class="msg-thinking">
           <div class="thinking-dot"></div>
@@ -629,9 +618,7 @@ class AigentiaApp {
   /* ── Logo animation ────────────────────────────────────── */
 
   startLogoAnimation(msgEl) {
-    // Sidebar inline SVG
     this.sidebarMark?.classList.add('ag-animated');
-    // Chat window mark — swap to animated SVG
     const effective = document.documentElement.getAttribute('data-theme') || 'light';
     const animSrc   = effective === 'dark'
       ? 'aigentia-mark-animated-cream.svg'
@@ -639,10 +626,10 @@ class AigentiaApp {
     const staticSrc = effective === 'dark'
       ? 'aigentia-mark-cream.svg'
       : 'aigentia-mark-deep.svg';
-    const markImg = msgEl?.querySelector('.msg-agent-mark img');
-    if (markImg) {
-      markImg.src = animSrc;
-      this._currentMarkImg    = markImg;
+    const chatMarkImg = document.getElementById('chat-mark-img');
+    if (chatMarkImg) {
+      chatMarkImg.src = animSrc;
+      this._currentMarkImg    = chatMarkImg;
       this._currentMarkStatic = staticSrc;
     }
   }
