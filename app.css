@@ -7,7 +7,7 @@
 :root {
   --canvas-bg:         var(--ag-cream);
   --canvas-text:       var(--ag-deep);
-  --canvas-sub:        rgba(34, 29, 92, 0.5);
+  --canvas-sub:        var(--ag-deep);
   --msg-user-bg:       var(--ag-deep);
   --msg-user-text:     var(--ag-cream);
   --msg-agent-text:    var(--ag-deep);
@@ -40,7 +40,7 @@
 [data-theme="dark"] {
   --canvas-bg:         var(--ag-deep);
   --canvas-text:       var(--ag-cream);
-  --canvas-sub:        rgba(246, 241, 231, 0.48);
+  --canvas-sub:        var(--ag-cream);
   --msg-user-bg:       rgba(246, 241, 231, 0.12);
   --msg-user-text:     var(--ag-cream);
   --msg-agent-text:    var(--ag-cream);
