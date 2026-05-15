@@ -35,6 +35,20 @@
   --window-border:     rgba(94, 75, 56, 0.2);
   --window-shadow:     0 8px 48px rgba(34, 29, 92, 0.09), 0 1px 4px rgba(34, 29, 92, 0.05);
   --sidebar-accent:    rgba(94, 75, 56, 0.45);
+  --fg:            var(--canvas-text);
+  --fg2:           var(--ag-bronze);
+  --border:        var(--card-border);
+  --hover:         var(--nav-hover);
+  --deep:          var(--ag-deep);
+  --cream:         var(--ag-cream);
+  --starter-border: var(--window-border);
+}
+
+[data-theme="dark"] {
+  --fg:            var(--canvas-text);
+  --fg2:           var(--ag-bronze);
+  --border:        var(--card-border);
+  --hover:         var(--nav-hover);
 }
 
 [data-theme="dark"] {

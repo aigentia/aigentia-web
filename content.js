@@ -1,5 +1,42 @@
 'use strict';
 
+const CONTACT_HTML = `<div class="ag-contact">
+  <div class="ag-contact-details">
+    <div class="ag-contact-item">
+      <span class="ag-contact-label">Email</span>
+      <span class="ag-contact-value" data-copy="hello@aigentia.com">hello@aigentia.com <button class="ag-copy-btn" onclick="agCopy(this,'hello@aigentia.com')">Copy</button></span>
+    </div>
+    <div class="ag-contact-item">
+      <span class="ag-contact-label">Web</span>
+      <span class="ag-contact-value">aigentia.com</span>
+    </div>
+    <div class="ag-contact-item">
+      <span class="ag-contact-label">Book a call</span>
+      <span class="ag-contact-value"><a href="https://calendly.com/aigentia/discovery-call" target="_blank" class="ag-contact-link">calendly.com/aigentia/discovery-call</a></span>
+    </div>
+    <div class="ag-contact-socials">
+      <a href="https://linkedin.com/company/aigentia"    target="_blank" class="ag-social-link">LinkedIn</a>
+      <a href="https://instagram.com/aigentia.official"  target="_blank" class="ag-social-link">Instagram</a>
+      <a href="https://youtube.com/@aigentia"            target="_blank" class="ag-social-link">YouTube</a>
+      <a href="https://tiktok.com/@aigentia"             target="_blank" class="ag-social-link">TikTok</a>
+    </div>
+  </div>
+
+  <div class="ag-contact-divider"></div>
+
+  <form class="ag-contact-form" id="ag-contact-form" onsubmit="agFormSubmit(event)">
+    <div class="ag-contact-form-title">Send a message</div>
+    <div class="ag-form-row">
+      <input type="text"  name="name"    placeholder="Your name"         required class="ag-input">
+      <input type="email" name="email"   placeholder="Your email"        required class="ag-input">
+    </div>
+    <input type="text"    name="company" placeholder="Organisation (optional)"  class="ag-input">
+    <textarea             name="message" placeholder="How can AiGENTiA help you?" rows="4" required class="ag-input ag-textarea"></textarea>
+    <button type="submit" class="ag-form-submit">Send Message</button>
+    <div class="ag-form-note">We respond within one business day.</div>
+  </form>
+</div>`;
+
 const CONTENT = {
 
   welcome: {
@@ -32,11 +69,6 @@ const CONTENT = {
     followups: ['ai-readiness', 'portfolio', 'philosophy'],
   },
 
-  contact: {
-    title: 'Contact the Agent',
-    text: `Every engagement starts with a conversation.\n\nThe best first step is always an AI Readiness Assessment — a structured diagnostic that maps where your organisation actually stands, with no vendor agenda and no predetermined conclusion.\n\n**Get in touch:**\n\n· Email: [copy:hello@aigentia.com]\n· Web: [copy:aigentia.com]\n· Founder: M. Cenan Demirel\n\nIf you would like to begin the AI Readiness Assessment directly, you can do so now — it takes approximately five minutes and produces an immediate readiness profile for your organisation.\n\nAiGENTiA · AI Management Agency · Agens Intelligens · 2025`,
-    followups: ['ai-readiness', 'how-we-work', 'philosophy'],
-  },
 
   'what-is-ai-agent': {
     title: 'What Is an AI Agent?',
@@ -84,24 +116,18 @@ const CONTENT = {
     title: 'AI Readiness Assessment',
     text: `Before any organisation invests in AI agents, it must understand where it actually stands — not where it hopes it stands.\n\nThe AiGENTiA AI Readiness Assessment is a structured diagnostic that maps current capability across four dimensions, identifies critical gaps, and produces a prioritised action plan.\n\n**Assessment Dimensions:**\n· People & Culture — AI literacy, change readiness, leadership alignment, skills gaps\n· Process & Data — data quality, accessibility, governance maturity, integration architecture\n· Technology & Infrastructure — stack compatibility, API availability, cloud architecture, AOS readiness\n· Governance & Risk — existing AI policies, regulatory exposure, compliance obligations\n\n**Deliverables:**\n· AI Maturity Score across all four dimensions with benchmark comparison\n· Prioritised gap analysis with effort/impact mapping\n· 90-day quick-win action plan and 12-month transformation roadmap\n· Executive briefing and board-ready risk summary\n· Technology vendor shortlist aligned to your architecture and budget\n\nThe Assessment is delivered over 3–6 weeks through structured interviews, process walkthroughs and technical reviews. It is the mandatory starting point for all AiGENTiA transformation programmes.\n\nTake the quick assessment below to receive your immediate readiness profile.`,
     followups: ['how-we-work', 'portfolio', 'ai-finance'],
-    hasAssessment: true,
-    assessmentKey: 'readiness',
   },
 
   'ai-finance': {
     title: 'AI Transformation Finance',
     text: `AI transformation is a significant capital commitment. Infrastructure, talent, tooling, integration, governance and ongoing management each carry costs that are frequently underestimated. AiGENTiA provides financial advisory services that help organisations understand, model and fund their AI investment.\n\n**Total Cost of Agent Ownership (TCAO):**\n· Initial Deployment — architecture, development, integration, testing and launch\n· Model API Costs — per-token costs for commercial models, scaling with agent usage volume\n· Infrastructure — compute, storage, monitoring tools and AOS platform\n· Human Oversight — ongoing cost of human reviewers, escalation handlers and governance functions\n· Maintenance & Updates — model updates, prompt optimisation, integration maintenance\n· Compliance & Audit — regulatory reporting, audit logging infrastructure, legal review\n\n**ROI Framework:**\nAiGENTiA models AI ROI across three value categories: cost reduction (process automation, headcount redeployment), revenue enhancement (faster sales cycles, improved customer experience) and risk reduction (compliance, error reduction). Payback periods for well-scoped agent programmes typically range from 8 to 24 months.\n\n**Funding Options:**\n· EU Horizon Europe & Digital Europe Programmes\n· UK Innovate UK — Smart Grants and AI Adoption programmes for SMEs\n· German KfW Digital Infrastructure — low-interest loans for digital transformation\n· Internal Capital Reallocation from process automation savings\n· AI-as-a-Service pricing — converting capital expenditure to operational expenditure\n\nTake the Finance Assessment below to receive a personalised investment and funding recommendation.`,
     followups: ['ai-readiness', 'how-we-work', 'contact'],
-    hasAssessment: true,
-    assessmentKey: 'finance',
   },
 
   tokenization: {
     title: 'AI Token Economics',
     text: `Token economics is the hidden dimension of AI cost management. As organisations scale from AI pilots to production deployments, token consumption — and the costs associated with it — become a significant operational variable.\n\n**What Are Tokens?**\nTokens are the unit of processing for large language models. Roughly one token equals four characters of English text. Every input to and output from a commercial AI model — OpenAI, Anthropic, Google — is measured and billed in tokens.\n\n**Why Token Economics Matters at Scale:**\n· An agent processing 1,000 documents per day at current API pricing can cost €3,000–15,000 per month\n· Multi-agent orchestrations multiply token consumption — each agent-to-agent communication incurs cost\n· Context window size directly impacts cost — agents retaining long conversation histories consume significantly more tokens\n· Model selection is a major cost lever — frontier models cost 10–30x more per token than efficient alternatives for comparable tasks\n\n**AiGENTiA's Token Governance Framework:**\n· Per-agent and per-workflow token budgets with hard ceilings\n· Model routing — automatically selecting the appropriate model tier for each task type\n· Context window management — intelligent compression of agent memory\n· Cost monitoring dashboards with alert thresholds\n· Monthly token spend analysis and optimisation recommendations\n\nTake the Token Economics Assessment below to understand your current position and receive targeted recommendations.`,
     followups: ['ai-finance', 'agent-os', 'portfolio'],
-    hasAssessment: true,
-    assessmentKey: 'tokenization',
   },
 
   'ai-training': {
@@ -122,23 +148,77 @@ const CONTENT = {
     followups: ['how-we-work', 'what-is-ai-agent', 'portfolio'],
   },
 
+  about: {
+    title: 'About AiGENTiA',
+    text: `AiGENTiA is an AI Management Agency.\n\nWe work with organisations navigating the transition from AI experimentation to AI operation — designing, deploying, and governing the autonomous systems that will define how work gets done.\n\nThe shift to agent-based AI is not primarily a technology problem. It is a governance problem, an organisational problem, and a human problem. Most AI consultancies approach it as the former. We address all three.\n\n**Our practice spans five phases: Assess → Design → Deploy → Manage → Govern.**\n\nFounded by M. Cenan Demirel — a practitioner whose background spans economic and organisational sociology, AI safety at a frontier AI laboratory, Wharton AI Strategy and Governance certification, and multiple AI advisory and product management roles.\n\nBased in Germany with international engagements.`,
+    followups: ['how-we-work', 'who-is-behind', 'portfolio'],
+  },
+
+  ai_management: {
+    title: 'AI Management',
+    text: `AI Management is the practice of deploying, operating and governing AI agents as live organisational assets — not as pilots, experiments, or innovation projects.\n\nAiGENTiA's AI Management service covers the complete operational lifecycle:\n\n**Agent Performance Management**\nContinuous monitoring of agent accuracy, cost efficiency and compliance posture. Agents drift — their behaviour diverges from intent without active management.\n\n**Agent Operating System Operations**\nOrchestration, permissions, audit logging and resource management for deployed multi-agent systems. The governance infrastructure that makes agents safe to operate at scale.\n\n**Cost and Token Management**\nPer-agent API budgets, token optimisation, model routing and cost monitoring. Unmanaged token consumption becomes a material financial risk at scale.\n\n**Compliance and Audit**\nContinuous alignment with EU AI Act requirements, GDPR obligations and sector-specific regulations. Audit trails and compliance evidence maintained as standard.\n\n**Incident Management**\nDefined protocols for agent failures, unexpected outputs, escalations and remediation. Because agents will behave unexpectedly — the question is whether you are prepared.\n\nEvery AiGENTiA management engagement includes governance as a built-in function, not an afterthought.`,
+    followups: ['agent-os', 'governance', 'portfolio'],
+  },
+
+  academy: {
+    title: 'AiGENTiA Academy',
+    text: `The AiGENTiA Academy delivers structured education for leadership teams, operational managers and practitioners preparing for the agent economy.\n\n**Current Programmes:**\n· AI Leadership for Executives — strategic context, governance obligations and decision-making frameworks for C-suite and board\n· AI Agent Operations — practical skills for teams working alongside deployed agents\n· EU AI Act Compliance — regulatory obligations, risk classification and implementation roadmap\n· AI Governance Fundamentals — policy design, control frameworks and human oversight structures\n\n**Format**\nDelivered as in-person workshops, virtual intensives or ongoing retainer education. All programmes can be customised to sector context and organisational maturity level.\n\n**The Governance Connection**\nTraining is not a soft skill add-on — it is a risk management function. Employees who understand the mandate and limits of AI systems are the first line of governance. The Academy is designed on this principle.`,
+    followups: ['governance', 'how-we-work', 'contact'],
+  },
+
+  events: {
+    title: 'Events',
+    text: `AiGENTiA hosts a rolling programme of briefings, workshops and open assessments for leadership teams navigating AI adoption.\n\n**Upcoming:**\n· AI Readiness Workshops — Berlin and Online, Q3 2025\n· Agent Economy Briefing — Online, Monthly\n· EU AI Act Compliance Clinic — Frankfurt, Q4 2025\n· Token Economics Masterclass — Online, Quarterly\n· AI Governance Forum — Brussels, Q1 2026\n\nAll events are small-format, invitation-only or limited-registration — designed for substantive dialogue rather than broadcast.\n\nThe AiGENTiA Advisory retainer includes standing access to all briefings and events as a standard component.\n\n**Register interest:**\n· Email: [copy:hello@aigentia.com]`,
+    followups: ['calendar', 'ai-advisory', 'contact'],
+  },
+
+  'eu-ai-act': {
+    title: 'The EU AI Act',
+    text: `The EU AI Act is the world's first comprehensive regulatory framework for artificial intelligence — and the most significant compliance obligation facing organisations deploying AI in or to the European market.\n\n**Timeline**\n· August 2024 — Entered into force\n· February 2025 — Prohibited AI practices banned\n· August 2025 — Obligations for General Purpose AI models\n· August 2026 — Full enforcement for high-risk AI systems\n\n**Risk Classification**\nFour tiers: Prohibited (banned outright), High-Risk (strict compliance obligations), Limited Risk (transparency requirements), Minimal Risk (no specific obligations).\n\n**High-Risk Categories:**\n· AI in employment decisions — hiring, performance evaluation, task allocation\n· AI in credit scoring and financial services\n· AI in biometric identification\n· AI managing critical infrastructure\n\n**Compliance Obligations for High-Risk Systems:**\n· Risk management system — documented and maintained throughout the lifecycle\n· Data governance — training data quality requirements\n· Technical documentation and audit trail\n· Transparency and human oversight controls\n· Registration in EU database\n\n**Penalties**\nUp to €35M or 7% of global turnover for prohibited practices; up to €15M or 3% for other violations.\n\nAiGENTiA's governance practice provides EU AI Act compliance mapping, risk classification, policy design and ongoing compliance monitoring.`,
+    followups: ['governance', 'ai-advisory', 'assess_readiness'],
+  },
+
+  assess_readiness: { type: 'assessment', assessmentId: 'readiness' },
+  assess_token:     { type: 'assessment', assessmentId: 'tokenization' },
+  assess_finance:   { type: 'assessment', assessmentId: 'finance' },
+
+  contact: {
+    title: 'Contact',
+    type: 'contact',
+  },
+
 };
 
 const NAV_ITEMS = [
-  { key: 'welcome',      label: 'Aigentia',      icon: 'home' },
-  { key: 'ai-readiness', label: 'AI Assessment', icon: 'bar-chart-2' },
-  { key: 'ai-finance',   label: 'AI Finance',    icon: 'trending-up' },
-  { key: 'tokenization', label: 'Tokenization',  icon: 'coins' },
-  { key: 'calendar',     label: 'Events',        icon: 'calendar' },
-  { key: 'calendar',     label: 'Calendar',      icon: 'calendar-days' },
-  { key: 'contact',      label: 'Contact',       icon: 'mail' },
+  { key: 'about',           label: 'About AiGENTiA',     icon: 'info' },
+  { key: 'ai_management',   label: 'AI Management',       icon: 'briefcase' },
+  { key: 'ai_advisory',     label: 'AI Advisory',         icon: 'compass' },
+  { key: 'ai_finance',      label: 'AI Finance',          icon: 'bar-chart-2' },
+  { key: 'assess_readiness',label: 'AI Readiness',        icon: 'clipboard-check' },
+  { key: 'assess_token',    label: 'Tokenization',        icon: 'layers' },
+  { key: 'assess_finance',  label: 'Finance Assessment',  icon: 'coins' },
+  { key: 'academy',         label: 'Academy',             icon: 'graduation-cap' },
+  { key: 'events',          label: 'Events',              icon: 'calendar-clock' },
+  { key: 'calendar',        label: 'Calendar',            icon: 'calendar' },
+  { key: 'contact',         label: 'Contact',             icon: 'mail' },
+];
+
+const EXPLORE_ITEMS = [
+  { label: 'What is Agent OS?',         key: 'agent-os' },
+  { label: 'The Agent Economy',         key: 'agent-economy' },
+  { label: 'What is an AI Agent?',      key: 'what-is-ai-agent' },
+  { label: 'AI Governance Basics',      key: 'governance' },
+  { label: 'The EU AI Act',             key: 'eu-ai-act' },
+  { label: 'What is Tokenization?',     key: 'tokenization' },
+  { label: 'Cost of AI Transformation', key: 'ai-finance' },
+  { label: 'AI Readiness in 2025',      key: 'ai-readiness' },
 ];
 
 const STARTERS = [
   { label: 'SHOW ME YOUR AI IMPLEMENTATION PROCESS', key: 'how-we-work' },
   { label: 'WHO IS BEHIND AIGENTIA?',                key: 'who-is-behind' },
   { label: 'WHAT IS AN AI AGENT?',                  key: 'what-is-ai-agent' },
-  { label: 'BEGIN THE AI READINESS ASSESSMENT',     key: 'ai-readiness' },
+  { label: 'BEGIN THE AI READINESS ASSESSMENT',     key: 'assess_readiness' },
 ];
 
 const TRIGGER_MAP = {
@@ -192,7 +272,19 @@ const TRIGGER_MAP = {
   'change management':                  'ai-training',
   'training':                           'ai-training',
   'calendar':                           'calendar',
-  'events':                             'calendar',
   'calendar and events':                'calendar',
   'upcoming events':                    'calendar',
+  'about aigentia':                     'about',
+  'about':                              'about',
+  'ai management':                      'ai_management',
+  'academy':                            'academy',
+  'events':                             'events',
+  'eu ai act':                          'eu-ai-act',
+  'eu act':                             'eu-ai-act',
+  'ai act':                             'eu-ai-act',
+  'begin the ai readiness assessment':  'assess_readiness',
+  'begin assessment':                   'assess_readiness',
+  'start assessment':                   'assess_readiness',
+  'ai_advisory':                        'ai-advisory',
+  'ai_finance':                         'ai-finance',
 };

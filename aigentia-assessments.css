@@ -1,0 +1,200 @@
+/* AiGENTiA — Assessment Styles
+   Add to main app stylesheet or link separately.
+   Uses the same CSS variables as aigentia-tokens.css */
+
+.ag-assess {
+  font-family: 'Inter', sans-serif;
+  max-width: 560px;
+  width: 100%;
+}
+
+/* Header */
+.ag-assess-header { margin-bottom: 20px; }
+.ag-assess-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+  font-size: 20px;
+  color: var(--fg, #221D5C);
+  margin-bottom: 4px;
+}
+.ag-assess-sub {
+  font-size: 12px;
+  color: var(--fg2, #5E4B38);
+  line-height: 1.5;
+}
+
+/* Progress */
+.ag-assess-progress-wrap { margin-bottom: 16px; }
+.ag-assess-progress-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.ag-assess-q-num { font-size: 11px; color: var(--fg2, #5E4B38); }
+.ag-assess-cat {
+  font-size: 10px;
+  font-weight: 500;
+  color: #fff;
+  padding: 2px 10px;
+  border-radius: 20px;
+  letter-spacing: .04em;
+}
+.ag-assess-progress-bar {
+  height: 2px;
+  background: var(--border, rgba(34,29,92,.1));
+  border-radius: 1px;
+  overflow: hidden;
+}
+.ag-assess-progress-fill {
+  height: 100%;
+  background: #5E4B38;
+  border-radius: 1px;
+  transition: width .35s ease;
+}
+
+/* Question */
+.ag-assess-q {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.45;
+  color: var(--fg, #221D5C);
+  margin-bottom: 16px;
+}
+
+/* Options */
+.ag-assess-opts { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+.ag-assess-opt {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 1px solid var(--starter-border, rgba(34,29,92,.15));
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  color: var(--fg, #221D5C);
+  text-align: left;
+  line-height: 1.45;
+  transition: border-color .15s, background .15s;
+}
+.ag-assess-opt:hover { border-color: #5E4B38; background: var(--hover); }
+.ag-assess-opt.selected { border-color: var(--deep, #221D5C); background: var(--hover); }
+[data-theme="dark"] .ag-assess-opt.selected { border-color: var(--cream, #F6F1E7); }
+.ag-assess-opt-dot {
+  width: 14px; height: 14px; flex-shrink: 0; margin-top: 2px;
+  border-radius: 50%;
+  border: 1.5px solid var(--starter-border, rgba(34,29,92,.2));
+  transition: border-color .15s, background .15s;
+}
+.ag-assess-opt.selected .ag-assess-opt-dot {
+  border-color: var(--deep, #221D5C);
+  background: var(--deep, #221D5C);
+}
+[data-theme="dark"] .ag-assess-opt.selected .ag-assess-opt-dot {
+  border-color: var(--cream, #F6F1E7);
+  background: var(--cream, #F6F1E7);
+}
+
+/* Navigation */
+.ag-assess-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.ag-assess-btn-back {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 12px;
+  color: var(--fg2);
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: background .15s;
+}
+.ag-assess-btn-back:hover { background: var(--hover); }
+.ag-assess-btn-next {
+  background: var(--deep, #221D5C);
+  color: var(--cream, #F6F1E7);
+  border: none;
+  border-radius: 6px;
+  padding: 8px 20px;
+  font-size: 12px;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: opacity .15s;
+}
+.ag-assess-btn-next:hover { opacity: .85; }
+.ag-assess-btn-next:disabled { opacity: .3; cursor: not-allowed; }
+[data-theme="dark"] .ag-assess-btn-next { background: var(--cream, #F6F1E7); color: var(--deep, #221D5C); }
+.ag-assess-btn-submit { background: #5E4B38; }
+[data-theme="dark"] .ag-assess-btn-submit { background: #C8A96B; color: #221D5C; }
+
+/* Results */
+.ag-assess-result-header {
+  background: var(--deep, #221D5C);
+  border-radius: 10px 10px 0 0;
+  padding: 20px;
+  margin-bottom: 0;
+}
+[data-theme="dark"] .ag-assess-result-header {
+  background: rgba(246,241,231,.08);
+  border: 1px solid var(--border);
+  border-bottom: none;
+}
+.ag-assess-result-label {
+  font-size: 9px; letter-spacing: .2em; text-transform: uppercase;
+  color: #5E4B38; margin-bottom: 6px;
+}
+.ag-assess-result-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400; font-size: 24px;
+  color: var(--cream, #F6F1E7);
+}
+[data-theme="dark"] .ag-assess-result-title { color: var(--fg); }
+.ag-assess-result-score {
+  font-size: 12px; color: rgba(246,241,231,.55); margin-top: 4px;
+}
+[data-theme="dark"] .ag-assess-result-score { color: var(--fg2); }
+.ag-assess-result-body {
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  padding: 16px 20px 20px;
+}
+.ag-assess-result-msg {
+  font-size: 13px; line-height: 1.65;
+  color: var(--fg); margin-bottom: 18px;
+}
+.ag-assess-dims { display: flex; flex-direction: column; gap: 10px; margin-bottom: 18px; }
+.ag-assess-dim-meta {
+  display: flex; justify-content: space-between;
+  font-size: 11px; color: var(--fg2); margin-bottom: 4px;
+}
+.ag-assess-dim-name { font-weight: 400; }
+.ag-assess-dim-pct  { font-weight: 500; }
+.ag-assess-dim-track {
+  height: 4px; background: var(--border);
+  border-radius: 2px; overflow: hidden;
+}
+.ag-assess-dim-fill {
+  height: 100%; border-radius: 2px;
+  transition: width .7s ease;
+}
+.ag-assess-cta {
+  display: block; width: 100%;
+  padding: 12px; text-align: center;
+  background: var(--deep, #221D5C);
+  color: var(--cream, #F6F1E7);
+  border-radius: 7px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px; font-weight: 500;
+  text-decoration: none;
+  transition: opacity .15s;
+}
+.ag-assess-cta:hover { opacity: .85; }
+[data-theme="dark"] .ag-assess-cta { background: var(--cream); color: var(--deep); }

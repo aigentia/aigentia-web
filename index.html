@@ -12,6 +12,7 @@
 
   <!-- Application stylesheet -->
   <link rel="stylesheet" href="app.css">
+  <link rel="stylesheet" href="aigentia-assessments.css">
 </head>
 <body>
 
@@ -49,16 +50,23 @@
 
     <hr class="sidebar-rule">
 
-    <!-- Scrollable middle: nav items + conversation starters -->
+    <!-- Scrollable middle: nav items + explore section -->
     <div id="sidebar-scroll">
 
       <nav id="sidebar-nav" aria-label="Primary navigation"></nav>
 
+      <div id="sidebar-socials">
+        <a href="https://youtube.com/@aigentia"           target="_blank" class="social-link" aria-label="YouTube">YT</a>
+        <a href="https://tiktok.com/@aigentia"            target="_blank" class="social-link" aria-label="TikTok">TT</a>
+        <a href="https://linkedin.com/company/aigentia"   target="_blank" class="social-link" aria-label="LinkedIn">LI</a>
+        <a href="https://instagram.com/aigentia.official" target="_blank" class="social-link" aria-label="Instagram">IG</a>
+      </div>
+
       <hr class="sidebar-rule sidebar-section-rule">
 
-      <div id="sidebar-starters-section">
-        <div class="sidebar-starters-label">Get Started</div>
-        <div id="sidebar-starters" role="group" aria-label="Conversation starters"></div>
+      <div id="sidebar-explore-section">
+        <div class="sidebar-starters-label">Explore</div>
+        <div id="sidebar-explore" role="group" aria-label="Explore topics"></div>
       </div>
 
     </div><!-- /#sidebar-scroll -->
@@ -167,7 +175,7 @@
 
 <!-- Content & Assessments -->
 <script src="content.js"></script>
-<script src="assessments.js"></script>
+<script src="aigentia-assessments.js"></script>
 
 <!-- Application controller -->
 <script src="app.js"></script>
