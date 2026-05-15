@@ -25,8 +25,6 @@ class AigentiaApp {
     this.setupCopyToClipboard();
     this.renderStarters();
     this.renderNavItems();
-
-    setTimeout(() => this.triggerResponse('welcome'), 120);
   }
 
   /* ── Theme ─────────────────────────────────────────────── */
@@ -79,16 +77,17 @@ class AigentiaApp {
   }
 
   updateAgentMarkTheme(effective) {
-    const staticSrc = effective === 'dark' ? 'aigentia-mark-on-deep.svg' : 'aigentia-mark-on-cream.svg';
+    const staticSrc = effective === 'dark' ? 'aigentia-mark-cream.svg' : 'aigentia-mark-deep.svg';
+    const heroImg = document.getElementById('hero-mark-img');
+    if (heroImg) heroImg.src = staticSrc;
     document.querySelectorAll('.msg-agent-mark img').forEach(img => {
-      if (img === this._currentMarkImg) return; // leave animating mark alone
+      if (img === this._currentMarkImg) return;
       img.src = staticSrc;
     });
-    // If a mark is mid-animation, update it to the correct animated variant
     if (this._currentMarkImg) {
       this._currentMarkImg.src = effective === 'dark'
-        ? 'aigentia-mark-animated-on-deep.svg'
-        : 'aigentia-mark-animated-on-cream.svg';
+        ? 'aigentia-mark-animated-cream.svg'
+        : 'aigentia-mark-animated-deep.svg';
       this._currentMarkStatic = staticSrc;
     }
   }
@@ -105,6 +104,11 @@ class AigentiaApp {
     });
 
     this.sidebarOverlay?.addEventListener('click', () => this.closeSidebar());
+
+    // Canvas header name → welcome
+    document.getElementById('canvas-header-name')?.addEventListener('click', () => {
+      this.triggerResponse('welcome');
+    });
 
     // Desktop collapse toggle
     document.getElementById('sidebar-collapse')?.addEventListener('click', () => {
@@ -274,6 +278,7 @@ class AigentiaApp {
   /* ── Core response engine ──────────────────────────────── */
 
   triggerResponse(key) {
+    document.getElementById('canvas').classList.add('active');
     if (this.isTyping) return;
     const content = CONTENT[key] || CONTENT.unknown;
     this.setActiveNav(key);
@@ -324,7 +329,7 @@ class AigentiaApp {
 
   createAgentMessage() {
     const effective = document.documentElement.getAttribute('data-theme') || 'light';
-    const markSrc   = effective === 'dark' ? 'aigentia-mark-on-deep.svg' : 'aigentia-mark-on-cream.svg';
+    const markSrc   = effective === 'dark' ? 'aigentia-mark-cream.svg' : 'aigentia-mark-deep.svg';
 
     const msg = document.createElement('div');
     msg.className = 'msg msg-agent';
@@ -629,11 +634,11 @@ class AigentiaApp {
     // Chat window mark — swap to animated SVG
     const effective = document.documentElement.getAttribute('data-theme') || 'light';
     const animSrc   = effective === 'dark'
-      ? 'aigentia-mark-animated-on-deep.svg'
-      : 'aigentia-mark-animated-on-cream.svg';
+      ? 'aigentia-mark-animated-cream.svg'
+      : 'aigentia-mark-animated-deep.svg';
     const staticSrc = effective === 'dark'
-      ? 'aigentia-mark-on-deep.svg'
-      : 'aigentia-mark-on-cream.svg';
+      ? 'aigentia-mark-cream.svg'
+      : 'aigentia-mark-deep.svg';
     const markImg = msgEl?.querySelector('.msg-agent-mark img');
     if (markImg) {
       markImg.src = animSrc;

@@ -72,7 +72,7 @@
 /* ── Base reset ───────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html, body { height: 100%; overflow: hidden; -webkit-font-smoothing: antialiased; }
+html, body { height: 100%; height: 100dvh; overflow: hidden; -webkit-font-smoothing: antialiased; }
 
 body {
   font-family: var(--ag-font-tag);
@@ -84,7 +84,7 @@ body {
 }
 
 /* ── App shell ────────────────────────────────────────────── */
-#app { display: flex; height: 100vh; overflow: hidden; }
+#app { display: flex; height: 100vh; height: 100dvh; overflow: hidden; }
 
 /* ── Sidebar ──────────────────────────────────────────────── */
 #sidebar {
@@ -95,6 +95,7 @@ body {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  height: 100dvh;
   overflow: hidden;
   transition: width 0.22s ease, background 0.25s ease;
   position: relative;
@@ -110,7 +111,7 @@ body {
 #sidebar-lockup .ag-tag  { color: var(--canvas-sub);  transition: color 0.25s ease; }
 
 /* Brand mark fill overrides the inline SVG fill attribute */
-#sidebar-mark path { fill: var(--canvas-text); transition: fill 0.25s ease; }
+#sidebar-mark svg  { color: var(--canvas-text); transition: color 0.25s ease; }
 
 #sidebar .ag-mark  { width: 40px; height: 40px; min-width: 40px; }
 #sidebar .ag-text  { height: 40px; }
@@ -273,6 +274,7 @@ body {
   flex-direction: column;
   align-items: center;
   height: 100vh;
+  height: 100dvh;
   overflow: hidden;
   background: var(--canvas-bg);
   padding: 20px 28px;
@@ -280,14 +282,66 @@ body {
   min-width: 0;
 }
 
-/* ── Canvas toolbar (theme button) ───────────────────────── */
-#canvas-toolbar {
-  flex-shrink: 0;
+/* ── Hero (empty state) ───────────────────────────────────── */
+#canvas-hero {
+  flex: 1;
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
   width: 100%;
   max-width: 900px;
-  padding: 0 0 10px;
+  padding-bottom: 24px;
+}
+
+#canvas.active #canvas-hero { display: none; }
+
+#hero-mark {
+  width: 72px;
+  height: 72px;
+  margin-bottom: 8px;
+}
+#hero-mark img { display: block; width: 100%; height: 100%; }
+
+#hero-name {
+  font-family: var(--ag-font-name);
+  font-size: 46px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: var(--canvas-text);
+  line-height: 1;
+  margin: 0;
+}
+
+#hero-tag {
+  font-family: var(--ag-font-tag);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--canvas-sub);
+  margin: 0;
+}
+
+/* ── Canvas header (active state) ─────────────────────────── */
+#canvas-header {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 900px;
+  padding: 0 0 12px;
+  flex-shrink: 0;
+}
+
+#canvas.active #canvas-header { display: flex; }
+
+#canvas-header-name {
+  font-family: var(--ag-font-name);
+  font-size: 20px;
+  letter-spacing: 0.07em;
+  color: var(--canvas-text);
+  cursor: pointer;
 }
 
 #theme-btn {
@@ -312,7 +366,6 @@ body {
 
 /* ── Chat window ──────────────────────────────────────────── */
 #chat-window {
-  flex: 1;
   width: 100%;
   max-width: 900px;
   display: flex;
@@ -323,8 +376,14 @@ body {
   box-shadow: var(--window-shadow);
   background: var(--canvas-bg);
   min-height: 0;
-  transition: box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+  transition: box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease, flex 0.3s ease;
 }
+
+/* In active state: chat window grows to fill remaining space */
+#canvas.active #chat-window { flex: 1; }
+
+/* Thread hidden in empty state */
+#canvas:not(.active) #thread { display: none; }
 
 /* ── Thread ───────────────────────────────────────────────── */
 #thread {
@@ -665,7 +724,7 @@ body {
   #canvas { padding: 16px 20px; }
   .thread-inner { padding: 0 24px 28px; }
   #prompt-area { padding: 12px 20px 16px; }
-  #canvas-toolbar { max-width: none; }
+  #canvas-header { max-width: none; }
   #chat-window { max-width: none; }
 }
 
@@ -676,6 +735,7 @@ body {
     left: 0;
     top: 0;
     height: 100vh;
+    height: 100dvh;
     z-index: 20;
     width: 52px;
     overflow: hidden;
@@ -703,8 +763,6 @@ body {
     max-width: none;
   }
 
-  #canvas-toolbar { max-width: none; padding: 0 0 8px; }
-
   /* Strip: center icons, hide all text */
   #sidebar:not(.expanded) #sidebar-lockup    { padding: 14px 0; justify-content: center; }
   #sidebar:not(.expanded) .ag-text,
@@ -730,6 +788,12 @@ body {
   .msg-thinking { padding-left: 0; }
 
   #thread-spacer { max-height: 15vh; }
+  #canvas-hero { padding-bottom: 16px; }
+  #hero-mark { width: 56px; height: 56px; margin-bottom: 4px; }
+  #hero-name { font-size: 32px; }
+  #hero-tag { font-size: 9px; letter-spacing: 0.18em; }
+  #canvas-header { padding: 0 0 8px; }
+  #canvas-header-name { font-size: 16px; }
 }
 
 /* ── Responsive — small phone (≤480px) ───────────────────── */
@@ -740,6 +804,8 @@ body {
   #prompt-area { padding: 8px 12px 12px; }
   #thread-spacer { max-height: 10vh; }
   .followup-chip { font-size: 9.5px; padding: 4px 10px 4px 8px; }
+  #hero-name { font-size: 28px; }
+  #hero-mark { width: 48px; height: 48px; }
 }
 
 /* ── System-preference dark mode ─────────────────────────── */
