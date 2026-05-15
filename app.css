@@ -103,7 +103,7 @@ body {
 }
 
 /* ── Sidebar lockup text — theme-aware overrides ─────────── */
-#sidebar-lockup { padding: 20px 16px; cursor: pointer; flex-shrink: 0; background: var(--canvas-bg); transition: background 0.25s ease; }
+#sidebar-lockup { padding: 20px 16px; cursor: pointer; flex-shrink: 0; }
 @media (hover: hover) {
   #sidebar-lockup:hover { background: var(--nav-hover); }
 }
@@ -112,8 +112,9 @@ body {
 #sidebar-lockup .ag-name { color: var(--canvas-text); transition: color 0.25s ease; }
 #sidebar-lockup .ag-tag  { color: var(--canvas-sub);  transition: color 0.25s ease; }
 
-/* Brand mark fill — set fill directly for reliable cross-browser <use> shadow DOM */
-#sidebar-mark svg  { fill: var(--canvas-text); color: var(--canvas-text); transition: fill 0.25s ease, color 0.25s ease; }
+/* Brand mark fill — color + fill on both SVG and use elements for cross-browser <use> shadow DOM */
+#sidebar-mark svg,
+#sidebar-mark svg use { fill: var(--canvas-text); color: var(--canvas-text); transition: fill 0.25s ease, color 0.25s ease; }
 
 #sidebar .ag-mark  { width: 40px; height: 40px; min-width: 40px; }
 #sidebar .ag-text  { height: 40px; }
