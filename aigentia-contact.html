@@ -1,0 +1,40 @@
+<!-- AiGENTiA Contact Form — renders inside chat window -->
+<!-- Include this HTML string in app.js as CONTENT['contact'] -->
+<!-- The form submits to a Formspree/Netlify endpoint — replace action URL -->
+
+<div class="ag-contact">
+  <div class="ag-contact-details">
+    <div class="ag-contact-item">
+      <span class="ag-contact-label">Email</span>
+      <span class="ag-contact-value" data-copy="hello@aigentia.com">hello@aigentia.com <button class="ag-copy-btn" onclick="agCopy(this,'hello@aigentia.com')">Copy</button></span>
+    </div>
+    <div class="ag-contact-item">
+      <span class="ag-contact-label">Web</span>
+      <span class="ag-contact-value">aigentia.com</span>
+    </div>
+    <div class="ag-contact-item">
+      <span class="ag-contact-label">Book a call</span>
+      <span class="ag-contact-value"><a href="https://calendly.com/aigentia/discovery-call" target="_blank" class="ag-contact-link">calendly.com/aigentia/discovery-call</a></span>
+    </div>
+    <div class="ag-contact-socials">
+      <a href="https://linkedin.com/company/aigentia"    target="_blank" class="ag-social-link">LinkedIn</a>
+      <a href="https://instagram.com/aigentia.official"  target="_blank" class="ag-social-link">Instagram</a>
+      <a href="https://youtube.com/@aigentia"            target="_blank" class="ag-social-link">YouTube</a>
+      <a href="https://tiktok.com/@aigentia"             target="_blank" class="ag-social-link">TikTok</a>
+    </div>
+  </div>
+
+  <div class="ag-contact-divider"></div>
+
+  <form class="ag-contact-form" id="ag-contact-form" onsubmit="agFormSubmit(event)">
+    <div class="ag-contact-form-title">Send a message</div>
+    <div class="ag-form-row">
+      <input type="text"  name="name"    placeholder="Your name"         required class="ag-input">
+      <input type="email" name="email"   placeholder="Your email"        required class="ag-input">
+    </div>
+    <input type="text"    name="company" placeholder="Organisation (optional)"  class="ag-input">
+    <textarea             name="message" placeholder="How can AiGENTiA help you?" rows="4" required class="ag-input ag-textarea"></textarea>
+    <button type="submit" class="ag-form-submit">Send Message</button>
+    <div class="ag-form-note">We respond within one business day.</div>
+  </form>
+</div>
