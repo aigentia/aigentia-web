@@ -11,17 +11,17 @@
 /* Header */
 .ag-assess-header { margin-bottom: 20px; }
 .ag-assess-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 400;
-  font-size: 22px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: 0.01em;
   color: var(--fg, #221D5C);
   margin-bottom: 6px;
 }
 .ag-assess-sub {
   font-family: 'Inter', sans-serif;
   font-size: 12px;
-  color: var(--fg, #221D5C);
-  opacity: 0.55;
+  color: var(--fg2, #5E4B38);
   line-height: 1.55;
 }
 
@@ -33,7 +33,7 @@
   align-items: center;
   margin-bottom: 6px;
 }
-.ag-assess-q-num { font-size: 11px; color: var(--fg, #221D5C); opacity: 0.5; }
+.ag-assess-q-num { font-size: 11px; color: var(--fg2, #5E4B38); }
 .ag-assess-cat {
   font-size: 10px;
   font-weight: 500;
@@ -164,9 +164,8 @@
 }
 [data-theme="dark"] .ag-assess-result-title { color: var(--fg); }
 .ag-assess-result-score {
-  font-size: 12px; color: rgba(246,241,231,.55); margin-top: 4px;
+  font-size: 12px; color: rgba(246,241,231,.6); margin-top: 4px;
 }
-[data-theme="dark"] .ag-assess-result-score { color: var(--fg2); }
 .ag-assess-result-body {
   border: 1px solid var(--border);
   border-top: none;
