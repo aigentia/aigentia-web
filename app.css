@@ -131,7 +131,7 @@ body {
 #sidebar .ag-name-half,
 #sidebar .ag-tag-half { height: 24px; }
 #sidebar .ag-name  { font-size: 22px; justify-content: flex-start; letter-spacing: 0.25em; width: auto; }
-#sidebar .ag-tag   { font-size: 9px;  justify-content: flex-start; letter-spacing: 0.2em;  width: auto; }
+#sidebar .ag-tag   { font-size: 9px;  justify-content: flex-start; letter-spacing: 0.25em; width: auto; }
 #sidebar .ag-accent { top: 24px; left: 0; right: auto; width: 100%; }
 
 /* ── Sidebar dividers ─────────────────────────────────────── */
