@@ -103,7 +103,7 @@ body {
 }
 
 /* ── Sidebar lockup text — theme-aware overrides ─────────── */
-#sidebar-lockup { padding: 20px 16px; cursor: pointer; flex-shrink: 0; background: transparent; }
+#sidebar-lockup { padding: 20px 16px; cursor: pointer; flex-shrink: 0; background: var(--canvas-bg); transition: background 0.25s ease; }
 @media (hover: hover) {
   #sidebar-lockup:hover { background: var(--nav-hover); }
 }
@@ -112,8 +112,8 @@ body {
 #sidebar-lockup .ag-name { color: var(--canvas-text); transition: color 0.25s ease; }
 #sidebar-lockup .ag-tag  { color: var(--canvas-sub);  transition: color 0.25s ease; }
 
-/* Brand mark fill overrides the inline SVG fill attribute */
-#sidebar-mark svg  { color: var(--canvas-text); transition: color 0.25s ease; }
+/* Brand mark fill — set fill directly for reliable cross-browser <use> shadow DOM */
+#sidebar-mark svg  { fill: var(--canvas-text); color: var(--canvas-text); transition: fill 0.25s ease, color 0.25s ease; }
 
 #sidebar .ag-mark  { width: 40px; height: 40px; min-width: 40px; }
 #sidebar .ag-text  { height: 40px; }
@@ -776,9 +776,10 @@ body {
   /* Collapse toggle is desktop-only */
   .sidebar-collapse { display: none; }
 
-  /* Overlay starts after strip */
+  /* Overlay starts after strip; jumps to expanded sidebar edge when open */
   #sidebar-overlay { left: 52px; }
   #sidebar-overlay.visible { display: block; }
+  #sidebar.expanded + #sidebar-overlay { left: 280px; }
 
   /* Canvas: always offset by strip */
   #canvas {
