@@ -108,9 +108,14 @@ class AigentiaApp {
     document.getElementById('sidebar-lockup')?.addEventListener('click', (e) => {
       if (window.innerWidth <= 768) {
         e.stopPropagation(); // prevent sidebar-level listener also firing
-        this.sidebar.classList.contains('expanded') ? this.closeSidebar() : this.openSidebar();
+        if (this.sidebar.classList.contains('expanded')) {
+          this.closeSidebar();
+          this.goHome();
+        } else {
+          this.openSidebar();
+        }
       } else {
-        this.triggerResponse('welcome');
+        this.goHome();
       }
     });
 
@@ -149,6 +154,14 @@ class AigentiaApp {
     this.sidebar.classList.remove('expanded');
     this.sidebarOverlay.classList.remove('visible');
     document.body.style.overflow = '';
+  }
+
+  goHome() {
+    this.cancelTyping();
+    this.stopLogoAnimation();
+    document.getElementById('canvas').classList.remove('active');
+    this.threadInner.innerHTML = '<div id="thread-spacer"></div>';
+    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
   }
 
   renderNavItems() {

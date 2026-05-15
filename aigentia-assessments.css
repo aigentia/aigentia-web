@@ -35,10 +35,15 @@
 .ag-assess-cat {
   font-size: 10px;
   font-weight: 500;
-  color: #fff;
+  background: var(--deep, #221D5C);
+  color: var(--cream, #F6F1E7);
   padding: 2px 10px;
   border-radius: 20px;
   letter-spacing: .04em;
+}
+[data-theme="dark"] .ag-assess-cat {
+  background: var(--cream, #F6F1E7);
+  color: var(--deep, #221D5C);
 }
 .ag-assess-progress-bar {
   height: 2px;
@@ -183,7 +188,11 @@
 }
 .ag-assess-dim-fill {
   height: 100%; border-radius: 2px;
+  background: var(--deep, #221D5C);
   transition: width .7s ease;
+}
+[data-theme="dark"] .ag-assess-dim-fill {
+  background: var(--cream, #F6F1E7);
 }
 .ag-assess-cta {
   display: block; width: 100%;

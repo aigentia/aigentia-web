@@ -474,17 +474,16 @@ body {
 
 #canvas.active #canvas-chat-row { flex: 1; }
 
-/* Mark column: absolutely to the left of the window (desktop only) */
-#chat-mark-col {
+/* Mark inside input row */
+#chat-mark-img {
   display: none;
-  position: absolute;
-  left: -52px;
-  top: 18px;
-  width: 32px;
-  height: 32px;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  opacity: 0.55;
+  transition: opacity 0.2s ease;
 }
-#canvas.active #chat-mark-col { display: block; }
-#chat-mark-col img { display: block; width: 100%; height: 100%; }
+#canvas.active #chat-mark-img { display: block; }
 
 /* ── Chat window ──────────────────────────────────────────── */
 #chat-window {
@@ -518,7 +517,7 @@ body {
 .thread-inner {
   max-width: 740px;
   margin: 0 auto;
-  padding: 0 32px 32px;
+  padding: 24px 32px 32px;
   display: flex;
   flex-direction: column;
   min-height: 100%;
@@ -977,8 +976,6 @@ body {
   #prompt-area { padding: 12px 20px 16px; }
   #canvas-header { max-width: none; }
   #canvas-chat-row { max-width: none; }
-  /* No room for the side mark at tablet — hide it */
-  #chat-mark-col { display: none !important; }
 }
 
 /* ── Responsive — mobile (≤768px) — icon strip ───────────── */
@@ -1014,7 +1011,6 @@ body {
   /* Chat row / window: edge-to-edge */
   #canvas-chat-row { max-width: none; }
   #chat-window { border-radius: 8px; }
-  #chat-mark-col { display: none !important; }
 
   /* Hero: tighten sizes on mobile */
   #hero-mark { width: 60px; height: 60px; margin-bottom: 20px; }
@@ -1039,7 +1035,7 @@ body {
   #sidebar:not(.expanded) .theme-toggle span { display: none; }
   #sidebar:not(.expanded) .sidebar-rule      { margin: 0 8px; }
 
-  .thread-inner { padding: 0 16px 24px; }
+  .thread-inner { padding: 20px 16px 24px; }
   #thread { padding: 0; }
   #prompt-area {
     padding: 10px 14px calc(14px + env(safe-area-inset-bottom, 0px));
@@ -1058,7 +1054,7 @@ body {
 @media (max-width: 480px) {
   #canvas { padding: 8px 10px; }
   #chat-window { border-radius: 6px; }
-  .thread-inner { padding: 0 12px 20px; }
+  .thread-inner { padding: 16px 12px 20px; }
   #prompt-area { padding: 8px 12px 12px; }
   #thread-spacer { max-height: 10vh; }
   .followup-chip { font-size: 9.5px; padding: 4px 10px 4px 8px; }
