@@ -125,13 +125,13 @@ const CONTENT = {
 };
 
 const NAV_ITEMS = [
-  { key: 'philosophy',      label: 'Our Philosophy',    icon: 'book-open' },
-  { key: 'portfolio',       label: 'Agency Portfolio',  icon: 'layers' },
-  { key: 'ai-readiness',    label: 'AI Readiness',      icon: 'bar-chart-2' },
-  { key: 'ai-finance',      label: 'AI Finance',        icon: 'trending-up' },
-  { key: 'tokenization',    label: 'Token Economics',   icon: 'coins' },
-  { key: 'calendar',        label: 'Calendar & Events', icon: 'calendar' },
-  { key: 'contact',         label: 'Contact the Agent', icon: 'mail' },
+  { key: 'welcome',      label: 'Aigentia',      icon: 'home' },
+  { key: 'ai-readiness', label: 'AI Assessment', icon: 'bar-chart-2' },
+  { key: 'ai-finance',   label: 'AI Finance',    icon: 'trending-up' },
+  { key: 'tokenization', label: 'Tokenization',  icon: 'coins' },
+  { key: 'calendar',     label: 'Events',        icon: 'calendar' },
+  { key: 'calendar',     label: 'Calendar',      icon: 'calendar-days' },
+  { key: 'contact',      label: 'Contact',       icon: 'mail' },
 ];
 
 const STARTERS = [

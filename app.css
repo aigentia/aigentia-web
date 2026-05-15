@@ -292,13 +292,11 @@ body {
 #canvas-hero {
   flex: 0 0 auto;
   display: flex;
-  flex-direction: row;         /* desktop: horizontal */
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 28px;
   width: 100%;
   max-width: 900px;
-  padding-bottom: 28px;
+  padding-bottom: 20px;
 }
 
 #canvas.active #canvas-hero { display: none; }
@@ -307,13 +305,16 @@ body {
   width: 80px;
   height: 80px;
   flex-shrink: 0;
+  margin-bottom: 28px;
 }
 #hero-mark img { display: block; width: 100%; height: 100%; }
 
 #hero-text {
   display: flex;
   flex-direction: column;
-  width: 280px;                /* name + tagline always match this width */
+  align-items: center;
+  width: 280px;
+  margin-bottom: 32px;
 }
 
 #hero-name {
@@ -346,6 +347,41 @@ body {
 }
 #hero-tag span { display: inline-block; }
 .hero-w { width: 0.35em; flex-shrink: 0; }
+
+/* ── Hero starters grid ────────────────────────────────────── */
+#hero-starters {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  width: 100%;
+  max-width: 560px;
+}
+
+.hero-starter {
+  display: block;
+  padding: 14px 16px;
+  border: 1px solid var(--window-border);
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+  font-family: var(--ag-font-tag);
+  font-size: 10.5px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--canvas-sub);
+  text-align: left;
+  line-height: 1.5;
+  transition: background 0.14s ease, color 0.14s ease, border-color 0.14s ease;
+  user-select: none;
+}
+
+@media (hover: hover) {
+  .hero-starter:hover {
+    background: var(--nav-hover);
+    color: var(--canvas-text);
+    border-color: var(--input-border);
+  }
+}
 
 /* ── Canvas header (active state) ─────────────────────────── */
 #canvas-header {
@@ -794,17 +830,13 @@ body {
   #chat-window { border-radius: 8px; }
   #chat-mark-col { display: none !important; }
 
-  /* Hero: vertical stack on mobile */
-  #canvas-hero {
-    flex-direction: column;
-    gap: 12px;
-    padding-bottom: 20px;
-    align-items: center;
-  }
-  #hero-text { align-items: center; width: 210px; }
-  #hero-mark { width: 60px; height: 60px; }
+  /* Hero: tighten sizes on mobile */
+  #hero-mark { width: 60px; height: 60px; margin-bottom: 20px; }
+  #hero-text { width: 220px; margin-bottom: 24px; }
   #hero-name { font-size: 40px; }
   #hero-tag  { font-size: 8px; }
+  #hero-starters { grid-template-columns: 1fr; max-width: 280px; }
+  .hero-starter  { font-size: 10px; padding: 12px 14px; }
 
   /* Strip: center icons, hide all text */
   #sidebar:not(.expanded) #sidebar-lockup    { padding: 14px 0; justify-content: center; }
@@ -839,7 +871,9 @@ body {
   .followup-chip { font-size: 9.5px; padding: 4px 10px 4px 8px; }
   #hero-text { width: 180px; }
   #hero-name { font-size: 34px; }
-  #hero-mark { width: 52px; height: 52px; }
+  #hero-mark { width: 52px; height: 52px; margin-bottom: 16px; }
+  #hero-starters { max-width: 240px; }
+  .hero-starter  { font-size: 9.5px; padding: 10px 12px; }
 }
 
 /* ── System-preference dark mode ─────────────────────────── */

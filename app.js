@@ -245,32 +245,49 @@ class AigentiaApp {
     document.body.removeChild(ta);
   }
 
-  /* ── Starters (sidebar chat-history style) ─────────────── */
+  /* ── Starters ──────────────────────────────────────────── */
 
   renderStarters() {
-    const container = document.getElementById('sidebar-starters');
-    if (!container) return;
-    STARTERS.forEach(s => {
-      const item = document.createElement('div');
-      item.className = 'sidebar-starter-item';
-      item.setAttribute('role', 'button');
-      item.setAttribute('tabindex', '0');
-      item.innerHTML = `
-        <svg data-lucide="message-square" stroke-width="1.5"></svg>
-        <span class="sidebar-starter-text">${s.label}</span>
-      `;
-      const activate = () => {
-        this.addUserMessage(s.label);
-        this.triggerResponse(s.key);
-        if (window.innerWidth <= 768) this.closeSidebar();
-      };
-      item.addEventListener('click', activate);
-      item.addEventListener('keydown', e => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); }
+    // Sidebar starters (chat-history style)
+    const sidebar = document.getElementById('sidebar-starters');
+    if (sidebar) {
+      STARTERS.forEach(s => {
+        const item = document.createElement('div');
+        item.className = 'sidebar-starter-item';
+        item.setAttribute('role', 'button');
+        item.setAttribute('tabindex', '0');
+        item.innerHTML = `
+          <svg data-lucide="message-square" stroke-width="1.5"></svg>
+          <span class="sidebar-starter-text">${s.label}</span>
+        `;
+        const activate = () => {
+          this.addUserMessage(s.label);
+          this.triggerResponse(s.key);
+          if (window.innerWidth <= 768) this.closeSidebar();
+        };
+        item.addEventListener('click', activate);
+        item.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); }
+        });
+        sidebar.appendChild(item);
       });
-      container.appendChild(item);
-    });
-    if (window.lucide) lucide.createIcons({ nodes: container.querySelectorAll('[data-lucide]') });
+      if (window.lucide) lucide.createIcons({ nodes: sidebar.querySelectorAll('[data-lucide]') });
+    }
+
+    // Hero starters — 2×2 grid in the empty-state canvas
+    const heroGrid = document.getElementById('hero-starters');
+    if (heroGrid) {
+      STARTERS.forEach(s => {
+        const btn = document.createElement('button');
+        btn.className = 'hero-starter';
+        btn.textContent = s.label;
+        btn.addEventListener('click', () => {
+          this.addUserMessage(s.label);
+          this.triggerResponse(s.key);
+        });
+        heroGrid.appendChild(btn);
+      });
+    }
   }
 
   /* ── Core response engine ──────────────────────────────── */
