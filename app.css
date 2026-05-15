@@ -276,21 +276,17 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 24px;
-  font-family: var(--ag-font-tag);
-  font-size: 8.5px;
-  font-weight: 400;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  width: 30px;
+  height: 28px;
   text-decoration: none;
   color: var(--canvas-text);
   border: 1px solid var(--window-border);
-  border-radius: 3px;
-  transition: border-color 0.14s ease, background 0.14s ease;
+  border-radius: 4px;
+  transition: border-color 0.14s ease, background 0.14s ease, color 0.14s ease;
   user-select: none;
   flex-shrink: 0;
 }
+.social-link svg { display: block; }
 .social-link:hover { border-color: var(--ag-bronze); background: var(--nav-hover); }
 
 /* ── Desktop collapsed sidebar ────────────────────────────── */
@@ -868,6 +864,9 @@ body {
 }
 
 .ag-social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   font-family: var(--ag-font-tag);
   font-size: 9px;
   letter-spacing: 0.1em;
@@ -875,10 +874,11 @@ body {
   text-decoration: none;
   color: var(--canvas-text);
   border: 1px solid var(--window-border);
-  padding: 4px 10px;
+  padding: 5px 10px;
   border-radius: 2px;
   transition: border-color 0.14s ease;
 }
+.ag-social-link svg { flex-shrink: 0; }
 .ag-social-link:hover { border-color: var(--ag-bronze); }
 
 .ag-contact-divider {
