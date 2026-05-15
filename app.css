@@ -99,7 +99,7 @@ body {
 
 /* ── Sidebar ──────────────────────────────────────────────── */
 #sidebar {
-  width: 260px;
+  width: 280px;
   flex-shrink: 0;
   background: var(--canvas-bg);          /* same colour as page */
   border-right: 2px solid var(--sidebar-accent);  /* bronze accent line */
@@ -532,7 +532,7 @@ body {
 .thread-inner {
   max-width: 740px;
   margin: 0 auto;
-  padding: 32px 32px 32px;
+  padding: 24px 32px 32px;
   display: flex;
   flex-direction: column;
   min-height: 100%;
@@ -984,10 +984,10 @@ body {
 
 /* ── Responsive — tablet (769–1024px) ────────────────────── */
 @media (max-width: 1024px) and (min-width: 769px) {
-  #sidebar { width: 220px; }
+  #sidebar { width: 240px; }
   #sidebar.collapsed { width: 54px; }
   #canvas { padding: 16px 20px; }
-  .thread-inner { padding: 0 24px 28px; }
+  .thread-inner { padding: 24px 24px 28px; }
   #prompt-area { padding: 12px 20px 16px; }
   #canvas-header { max-width: none; }
   #canvas-chat-row { max-width: none; }
