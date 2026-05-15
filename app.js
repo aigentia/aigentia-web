@@ -25,6 +25,7 @@ class AigentiaApp {
     this.setupCopyToClipboard();
     this.renderStarters();
     this.renderNavItems();
+    this.renderExploreItems();
   }
 
   /* ── Theme ─────────────────────────────────────────────── */
@@ -263,32 +264,6 @@ class AigentiaApp {
   /* ── Starters ──────────────────────────────────────────── */
 
   renderStarters() {
-    // Sidebar starters (chat-history style)
-    const sidebar = document.getElementById('sidebar-starters');
-    if (sidebar) {
-      STARTERS.forEach(s => {
-        const item = document.createElement('div');
-        item.className = 'sidebar-starter-item';
-        item.setAttribute('role', 'button');
-        item.setAttribute('tabindex', '0');
-        item.innerHTML = `
-          <svg data-lucide="message-square" stroke-width="1.5"></svg>
-          <span class="sidebar-starter-text">${s.label}</span>
-        `;
-        const activate = () => {
-          this.addUserMessage(s.label);
-          this.triggerResponse(s.key);
-          if (window.innerWidth <= 768) this.closeSidebar();
-        };
-        item.addEventListener('click', activate);
-        item.addEventListener('keydown', e => {
-          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); }
-        });
-        sidebar.appendChild(item);
-      });
-      if (window.lucide) lucide.createIcons({ nodes: sidebar.querySelectorAll('[data-lucide]') });
-    }
-
     // Hero starters — 2×2 grid in the empty-state canvas
     const heroGrid = document.getElementById('hero-starters');
     if (heroGrid) {
@@ -305,17 +280,70 @@ class AigentiaApp {
     }
   }
 
+  renderExploreItems() {
+    const container = document.getElementById('sidebar-explore');
+    if (!container) return;
+    EXPLORE_ITEMS.forEach(item => {
+      const el = document.createElement('div');
+      el.className = 'sidebar-starter-item';
+      el.setAttribute('role', 'button');
+      el.setAttribute('tabindex', '0');
+      el.innerHTML = `
+        <svg data-lucide="message-square" stroke-width="1.5"></svg>
+        <span class="sidebar-starter-text">${item.label}</span>
+      `;
+      const activate = () => {
+        this.handleNavClick(item.key);
+      };
+      el.addEventListener('click', activate);
+      el.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); }
+      });
+      container.appendChild(el);
+    });
+    if (window.lucide) lucide.createIcons({ nodes: container.querySelectorAll('[data-lucide]') });
+  }
+
   /* ── Core response engine ──────────────────────────────── */
 
   triggerResponse(key) {
     document.getElementById('canvas').classList.add('active');
-    if (this.isTyping) return;
+    this.cancelTyping();
     const content = CONTENT[key] || CONTENT.unknown;
     this.setActiveNav(key);
 
     // Clear previous response — single-response view
     this.threadInner.innerHTML = '';
 
+    // Assessment type — render directly, no typewriter
+    if (content.type === 'assessment') {
+      const msgEl = document.createElement('div');
+      msgEl.className = 'msg msg-agent';
+      const bodyEl = document.createElement('div');
+      bodyEl.className = 'msg-agent-body';
+      msgEl.appendChild(bodyEl);
+      this.threadInner.appendChild(msgEl);
+      if (typeof renderAssessment === 'function') {
+        renderAssessment(content.assessmentId, bodyEl);
+      }
+      this.scrollToBottom();
+      return;
+    }
+
+    // Contact type — render form HTML directly, no typewriter
+    if (content.type === 'contact') {
+      const msgEl = document.createElement('div');
+      msgEl.className = 'msg msg-agent';
+      const bodyEl = document.createElement('div');
+      bodyEl.className = 'msg-agent-body';
+      bodyEl.innerHTML = CONTACT_HTML;
+      msgEl.appendChild(bodyEl);
+      this.threadInner.appendChild(msgEl);
+      this.scrollToBottom();
+      return;
+    }
+
+    // Default: typewriter response
     const msgEl = this.createAgentMessage();
     this.threadInner.appendChild(msgEl);
     this.scrollToBottom();
@@ -339,10 +367,6 @@ class AigentiaApp {
         this.stopLogoAnimation();
         this.isTyping = false;
         this.setSendDisabled(false);
-
-        if (content.hasAssessment && content.assessmentKey) {
-          this.renderAssessment(content.assessmentKey, msgEl);
-        }
 
         if (content.followups && content.followups.length) {
           this.renderFollowups(content.followups, msgEl);
@@ -530,123 +554,6 @@ class AigentiaApp {
     if (window.lucide) lucide.createIcons({ nodes: container.querySelectorAll('[data-lucide]') });
   }
 
-  /* ── Assessments ───────────────────────────────────────── */
-
-  renderAssessment(assessmentKey, msgEl) {
-    const assessment = ASSESSMENTS[assessmentKey];
-    if (!assessment) return;
-
-    const card    = document.createElement('div');
-    card.className = 'assessment-card';
-
-    const total  = assessment.questions.length;
-    let currentQ = 0;
-    let scores   = [];
-
-    const render = () => {
-      card.innerHTML = '';
-
-      const header = document.createElement('div');
-      header.className = 'assessment-header';
-      header.innerHTML = `
-        <div class="assessment-title">${assessment.title}</div>
-        <div class="assessment-subtitle">${assessment.subtitle}</div>
-      `;
-      card.appendChild(header);
-
-      if (currentQ >= total) {
-        this.renderAssessmentResult(card, assessment, scores);
-        return;
-      }
-
-      const q   = assessment.questions[currentQ];
-      const pct = Math.round((currentQ / total) * 100);
-
-      const progressEl = document.createElement('div');
-      progressEl.className = 'assessment-progress';
-      progressEl.innerHTML = `
-        <div class="progress-bar-track">
-          <div class="progress-bar-fill" style="width:${pct}%"></div>
-        </div>
-        <span class="progress-label">Question ${currentQ + 1} of ${total}</span>
-      `;
-      card.appendChild(progressEl);
-
-      const dimEl = document.createElement('div');
-      dimEl.className = 'assessment-dimension';
-      dimEl.textContent = q.dimension;
-      card.appendChild(dimEl);
-
-      const qEl = document.createElement('div');
-      qEl.className = 'assessment-question';
-      qEl.textContent = q.text;
-      card.appendChild(qEl);
-
-      const optionsEl = document.createElement('div');
-      optionsEl.className = 'assessment-options';
-
-      q.options.forEach(opt => {
-        const btn = document.createElement('button');
-        btn.className = 'assessment-option';
-        btn.innerHTML = `
-          <div class="option-indicator">
-            <div class="option-indicator-inner"></div>
-          </div>
-          <span>${opt.label}</span>
-        `;
-        btn.addEventListener('click', () => {
-          scores.push(opt.score);
-          currentQ++;
-          render();
-          this.scrollToBottom();
-        });
-        optionsEl.appendChild(btn);
-      });
-
-      card.appendChild(optionsEl);
-    };
-
-    render();
-    msgEl.appendChild(card);
-    this.scrollToBottom();
-  }
-
-  renderAssessmentResult(card, assessment, scores) {
-    const total  = scores.reduce((a, b) => a + b, 0);
-    const max    = assessment.questions.length * 4;
-    const result = assessment.score(total);
-
-    const resultEl = document.createElement('div');
-    resultEl.className = 'assessment-result';
-    resultEl.innerHTML = `
-      <div class="result-band">${result.band}</div>
-      <div class="result-score-row">
-        <span class="result-score-num">${total}</span>
-        <span class="result-score-max">/ ${max}</span>
-      </div>
-      <div class="result-summary">${result.summary}</div>
-      <div class="result-detail">${result.detail}</div>
-      <button class="result-cta" data-cta="${result.cta}">
-        <svg data-lucide="arrow-right" stroke-width="1.5"></svg>
-        Explore next steps
-      </button>
-    `;
-
-    card.appendChild(resultEl);
-
-    resultEl.querySelector('.result-cta').addEventListener('click', e => {
-      const key = e.currentTarget.dataset.cta;
-      const c   = CONTENT[key];
-      if (c) {
-        const label = c.chipLabel || c.title;
-        this.addUserMessage(label);
-        this.triggerResponse(key);
-      }
-    });
-
-    if (window.lucide) lucide.createIcons({ nodes: card.querySelectorAll('[data-lucide]') });
-  }
-
   /* ── Logo animation ────────────────────────────────────── */
 
   startLogoAnimation(msgEl) {
@@ -691,6 +598,12 @@ class AigentiaApp {
     this.sendBtn.disabled = disabled;
   }
 
+  cancelTyping() {
+    if (this.typingTimer) { clearTimeout(this.typingTimer); this.typingTimer = null; }
+    this.isTyping = false;
+    this.setSendDisabled(false);
+  }
+
   escapeHtml(text) {
     return text
       .replace(/&/g, '&amp;')
@@ -703,3 +616,53 @@ class AigentiaApp {
 document.addEventListener('DOMContentLoaded', () => {
   window.app = new AigentiaApp();
 });
+
+/* ── Contact helpers (global — called by inline contact form handlers) ── */
+window.agCopy = function(btn, text) {
+  const doConfirm = () => {
+    btn.textContent = 'Copied';
+    setTimeout(() => { btn.textContent = 'Copy'; }, 1800);
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(doConfirm).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = text; ta.style.cssText = 'position:fixed;opacity:0';
+      document.body.appendChild(ta); ta.focus(); ta.select();
+      try { document.execCommand('copy'); doConfirm(); } catch(_) {}
+      document.body.removeChild(ta);
+    });
+  } else {
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.cssText = 'position:fixed;opacity:0';
+    document.body.appendChild(ta); ta.focus(); ta.select();
+    try { document.execCommand('copy'); doConfirm(); } catch(_) {}
+    document.body.removeChild(ta);
+  }
+};
+
+window.agFormSubmit = function(e) {
+  e.preventDefault();
+  const form = e.target;
+  const btn  = form.querySelector('.ag-form-submit');
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+  fetch('https://formspree.io/f/placeholder', {
+    method: 'POST',
+    headers: { 'Accept': 'application/json' },
+    body: new FormData(form),
+  })
+    .then(r => {
+      if (r.ok) {
+        form.innerHTML = '<div class="ag-form-success">Message sent. We will respond within one business day.</div>';
+      } else {
+        btn.disabled = false;
+        btn.textContent = 'Send Message';
+        alert('Something went wrong. Please email hello@aigentia.com directly.');
+      }
+    })
+    .catch(() => {
+      btn.disabled = false;
+      btn.textContent = 'Send Message';
+      alert('Something went wrong. Please email hello@aigentia.com directly.');
+    });
+};
