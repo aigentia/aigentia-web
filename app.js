@@ -78,14 +78,18 @@ class AigentiaApp {
 
   updateAgentMarkTheme(effective) {
     const staticSrc = effective === 'dark' ? 'aigentia-mark-cream.svg' : 'aigentia-mark-deep.svg';
+    const animSrc   = effective === 'dark' ? 'aigentia-mark-animated-cream.svg' : 'aigentia-mark-animated-deep.svg';
+
+    const sidebarImg = document.getElementById('sidebar-mark-img');
+    if (sidebarImg) sidebarImg.src = this._sidebarAnimating ? animSrc : staticSrc;
+
     const heroImg = document.getElementById('hero-mark-img');
     if (heroImg) heroImg.src = staticSrc;
+
     const chatMarkImg = document.getElementById('chat-mark-img');
     if (chatMarkImg && chatMarkImg !== this._currentMarkImg) chatMarkImg.src = staticSrc;
     if (this._currentMarkImg) {
-      this._currentMarkImg.src = effective === 'dark'
-        ? 'aigentia-mark-animated-cream.svg'
-        : 'aigentia-mark-animated-deep.svg';
+      this._currentMarkImg.src = animSrc;
       this._currentMarkStatic = staticSrc;
     }
   }
@@ -93,9 +97,17 @@ class AigentiaApp {
   /* ── Sidebar ───────────────────────────────────────────── */
 
   setupSidebar() {
+    // On mobile, tapping anywhere on the collapsed strip opens the sidebar
+    this.sidebar.addEventListener('click', () => {
+      if (window.innerWidth <= 768 && !this.sidebar.classList.contains('expanded')) {
+        this.openSidebar();
+      }
+    });
+
     document.getElementById('sidebar-lockup')?.addEventListener('click', () => {
       if (window.innerWidth <= 768) {
-        this.sidebar.classList.contains('expanded') ? this.closeSidebar() : this.openSidebar();
+        if (this.sidebar.classList.contains('expanded')) this.closeSidebar();
+        // collapsed case handled by the sidebar-level listener above
       } else {
         this.triggerResponse('welcome');
       }
@@ -164,10 +176,13 @@ class AigentiaApp {
   }
 
   handleNavClick(key) {
+    if (window.innerWidth <= 768 && !this.sidebar.classList.contains('expanded')) {
+      this.openSidebar();
+      return;
+    }
     document.querySelectorAll('.nav-item').forEach(el => {
       el.classList.toggle('active', el.dataset.key === key);
     });
-    // On mobile, always collapse after selection
     if (window.innerWidth <= 768) this.closeSidebar();
     this.triggerResponse(key);
   }
@@ -635,14 +650,13 @@ class AigentiaApp {
   /* ── Logo animation ────────────────────────────────────── */
 
   startLogoAnimation(msgEl) {
-    this.sidebarMark?.classList.add('ag-animated');
     const effective = document.documentElement.getAttribute('data-theme') || 'light';
-    const animSrc   = effective === 'dark'
-      ? 'aigentia-mark-animated-cream.svg'
-      : 'aigentia-mark-animated-deep.svg';
-    const staticSrc = effective === 'dark'
-      ? 'aigentia-mark-cream.svg'
-      : 'aigentia-mark-deep.svg';
+    const animSrc   = effective === 'dark' ? 'aigentia-mark-animated-cream.svg' : 'aigentia-mark-animated-deep.svg';
+    const staticSrc = effective === 'dark' ? 'aigentia-mark-cream.svg'          : 'aigentia-mark-deep.svg';
+
+    const sidebarImg = document.getElementById('sidebar-mark-img');
+    if (sidebarImg) { sidebarImg.src = animSrc; this._sidebarAnimating = true; }
+
     const chatMarkImg = document.getElementById('chat-mark-img');
     if (chatMarkImg) {
       chatMarkImg.src = animSrc;
@@ -652,9 +666,12 @@ class AigentiaApp {
   }
 
   stopLogoAnimation() {
-    // Sidebar
-    this.sidebarMark?.classList.remove('ag-animated');
-    // Chat window mark — restore static SVG
+    const sidebarImg = document.getElementById('sidebar-mark-img');
+    if (sidebarImg && this._sidebarAnimating) {
+      const effective = document.documentElement.getAttribute('data-theme') || 'light';
+      sidebarImg.src = effective === 'dark' ? 'aigentia-mark-cream.svg' : 'aigentia-mark-deep.svg';
+      this._sidebarAnimating = false;
+    }
     if (this._currentMarkImg) {
       this._currentMarkImg.src = this._currentMarkStatic;
       this._currentMarkImg     = null;

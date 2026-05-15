@@ -112,9 +112,8 @@ body {
 #sidebar-lockup .ag-name { color: var(--canvas-text); transition: color 0.25s ease; }
 #sidebar-lockup .ag-tag  { color: var(--canvas-sub);  transition: color 0.25s ease; }
 
-/* Brand mark fill — color + fill on both SVG and use elements for cross-browser <use> shadow DOM */
-#sidebar-mark svg,
-#sidebar-mark svg use { fill: var(--canvas-text); color: var(--canvas-text); transition: fill 0.25s ease, color 0.25s ease; }
+/* Sidebar mark uses an img tag — theme handled by JS src-swap */
+#sidebar-mark img { display: block; width: 100%; height: 100%; }
 
 #sidebar .ag-mark  { width: 40px; height: 40px; min-width: 40px; }
 #sidebar .ag-text  { height: 40px; }
