@@ -99,7 +99,7 @@ body {
 
 /* ── Sidebar ──────────────────────────────────────────────── */
 #sidebar {
-  width: 280px;
+  width: 260px;
   flex-shrink: 0;
   background: var(--canvas-bg);          /* same colour as page */
   border-right: 2px solid var(--sidebar-accent);  /* bronze accent line */
