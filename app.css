@@ -131,7 +131,7 @@ body {
 #sidebar .ag-name-half,
 #sidebar .ag-tag-half { height: 20px; }
 #sidebar .ag-name  { font-size: 18px; }
-#sidebar .ag-tag   { font-size: 7px; letter-spacing: 0.12em; }
+#sidebar .ag-tag   { font-size: 9px; letter-spacing: 0; }
 #sidebar .ag-accent { top: 20px; }
 
 /* ── Sidebar dividers ─────────────────────────────────────── */
@@ -390,7 +390,8 @@ body {
 
 #hero-tag {
   font-family: var(--ag-font-tag);
-  font-size: 9px;
+  font-size: 11px;
+  letter-spacing: 0;
   text-transform: uppercase;
   color: var(--canvas-sub);
   display: flex;
@@ -1031,7 +1032,7 @@ body {
   #hero-mark { width: 60px; height: 60px; margin-bottom: 20px; }
   #hero-text { width: 220px; margin-bottom: 24px; }
   #hero-name { font-size: 40px; }
-  #hero-tag  { font-size: 8px; }
+  #hero-tag  { font-size: 9px; }
   #hero-starters { grid-template-columns: 1fr; max-width: 280px; }
   .hero-starter  { font-size: 10px; padding: 12px 14px; }
 
@@ -1089,6 +1090,7 @@ body {
   .followup-chip { font-size: 9.5px; padding: 4px 10px 4px 8px; }
   #hero-text { width: 180px; }
   #hero-name { font-size: 34px; }
+  #hero-tag  { font-size: 8px; }
   #hero-mark { width: 52px; height: 52px; margin-bottom: 16px; }
   #hero-starters { max-width: 240px; }
   .hero-starter  { font-size: 9.5px; padding: 10px 12px; }
