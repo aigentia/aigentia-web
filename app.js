@@ -104,10 +104,10 @@ class AigentiaApp {
       }
     });
 
-    document.getElementById('sidebar-lockup')?.addEventListener('click', () => {
+    document.getElementById('sidebar-lockup')?.addEventListener('click', (e) => {
       if (window.innerWidth <= 768) {
-        if (this.sidebar.classList.contains('expanded')) this.closeSidebar();
-        // collapsed case handled by the sidebar-level listener above
+        e.stopPropagation(); // prevent sidebar-level listener also firing
+        this.sidebar.classList.contains('expanded') ? this.closeSidebar() : this.openSidebar();
       } else {
         this.triggerResponse('welcome');
       }

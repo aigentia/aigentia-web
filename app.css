@@ -103,7 +103,7 @@ body {
 }
 
 /* ── Sidebar lockup text — theme-aware overrides ─────────── */
-#sidebar-lockup { padding: 20px 16px; cursor: pointer; flex-shrink: 0; background: var(--canvas-bg); transition: background 0.25s ease; }
+#sidebar-lockup { padding: 20px 16px; cursor: pointer; flex-shrink: 0; transition: background 0.15s ease; }
 @media (hover: hover) {
   #sidebar-lockup:hover { background: var(--nav-hover); }
 }
@@ -178,8 +178,7 @@ body {
   font-size: 9px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--canvas-sub);
-  opacity: 0.55;
+  color: var(--canvas-text);
   padding: 10px 16px 4px;
 }
 
@@ -852,12 +851,17 @@ body {
 
   .thread-inner { padding: 0 16px 24px; }
   #thread { padding: 0; }
-  #prompt-area { padding: 10px 14px 14px; }
+  #prompt-area {
+    padding: 10px 14px calc(14px + env(safe-area-inset-bottom, 0px));
+  }
 
   .msg-user-bubble { max-width: 88%; }
   #thread-spacer { max-height: 15vh; }
   #canvas-header { padding: 0 0 8px; }
   #canvas-header-name { font-size: 16px; }
+
+  /* iPhone notch / Dynamic Island — canvas left offset */
+  #canvas { padding-left: calc(16px + env(safe-area-inset-left, 0px)); }
 }
 
 /* ── Responsive — small phone (≤480px) ───────────────────── */
@@ -880,7 +884,7 @@ body {
   :root:not([data-theme="light"]):not([data-theme="dark"]) {
     --canvas-bg:       var(--ag-deep);
     --canvas-text:     var(--ag-cream);
-    --canvas-sub:      rgba(246, 241, 231, 0.48);
+    --canvas-sub:      var(--ag-cream);
     --msg-user-bg:     rgba(246, 241, 231, 0.12);
     --msg-user-text:   var(--ag-cream);
     --msg-agent-text:  var(--ag-cream);
