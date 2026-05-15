@@ -532,7 +532,7 @@ body {
 .thread-inner {
   max-width: 740px;
   margin: 0 auto;
-  padding: 24px 32px 32px;
+  padding: 32px 32px 32px;
   display: flex;
   flex-direction: column;
   min-height: 100%;
@@ -1064,7 +1064,7 @@ body {
   #sidebar:not(.expanded) .theme-toggle span { display: none; }
   #sidebar:not(.expanded) .sidebar-rule      { margin: 0 8px; }
 
-  .thread-inner { padding: 20px 16px 24px; }
+  .thread-inner { padding: 24px 16px 24px; }
   #thread { padding: 0; }
   #prompt-area {
     padding: 10px 14px calc(14px + env(safe-area-inset-bottom, 0px));
@@ -1083,7 +1083,7 @@ body {
 @media (max-width: 480px) {
   #canvas { padding: 8px 10px; }
   #chat-window { border-radius: 6px; }
-  .thread-inner { padding: 16px 12px 20px; }
+  .thread-inner { padding: 20px 12px 20px; }
   #prompt-area { padding: 8px 12px 12px; }
   #thread-spacer { max-height: 10vh; }
   .followup-chip { font-size: 9.5px; padding: 4px 10px 4px 8px; }
