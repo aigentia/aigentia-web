@@ -21,7 +21,8 @@
 .ag-assess-sub {
   font-family: 'Inter', sans-serif;
   font-size: 12px;
-  color: var(--fg2, #5E4B38);
+  color: var(--fg, #221D5C);
+  opacity: 0.6;
   line-height: 1.55;
 }
 
@@ -33,7 +34,7 @@
   align-items: center;
   margin-bottom: 6px;
 }
-.ag-assess-q-num { font-size: 11px; color: var(--fg2, #5E4B38); }
+.ag-assess-q-num { font-size: 11px; color: var(--fg, #221D5C); opacity: 0.55; }
 .ag-assess-cat {
   font-size: 10px;
   font-weight: 500;
