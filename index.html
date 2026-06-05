@@ -40,33 +40,40 @@
 
     /* ── Mark ─────────────────────────────────────────────────── */
     .mark {
-      width: 108px;
-      height: 108px;
+      width: 119px;
+      height: 119px;
     }
 
     /* ── Name ─────────────────────────────────────────────────── */
     .name {
       font-family: "Cormorant Garamond", serif;
       font-weight: 400;
-      font-size: 40px;
+      font-size: 44px;
       letter-spacing: 0.18em;
       color: var(--cream);
       line-height: 1;
+    }
+
+    /* ── Name/tag divider ─────────────────────────────────────── */
+    .rule-name {
+      width: 80px;
+      border: none;
+      border-top: 1px solid var(--bronze);
+      opacity: 0.55;
     }
 
     /* ── Tagline ──────────────────────────────────────────────── */
     .tagline {
       font-family: "Inter", sans-serif;
       font-weight: 400;
-      font-size: 11px;
-      letter-spacing: 0.32em;
+      font-size: 44px;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--cream);
       line-height: 1;
-      margin-top: -16px;
     }
 
-    /* ── Rule ─────────────────────────────────────────────────── */
+    /* ── Section rule ─────────────────────────────────────────── */
     .rule {
       width: 100px;
       border: none;
@@ -78,8 +85,8 @@
     .cs-label {
       font-family: "Inter", sans-serif;
       font-weight: 400;
-      font-size: 11px;
-      letter-spacing: 0.32em;
+      font-size: 33px;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--cream);
       line-height: 1;
@@ -88,8 +95,8 @@
     .cs-date {
       font-family: "Cormorant Garamond", serif;
       font-weight: 400;
-      font-size: 40px;
-      letter-spacing: 0.1em;
+      font-size: 120px;
+      letter-spacing: 0.06em;
       color: var(--cream);
       line-height: 1;
     }
@@ -185,9 +192,11 @@
     .mark use:nth-child(83){animation-delay:1.35s}
     .mark use:nth-child(84){animation-delay:1.54s}
 
-    @media (max-width: 480px) {
-      .mark { width: 80px; height: 80px; }
-      .name, .cs-date { font-size: 32px; }
+    @media (max-width: 600px) {
+      .mark { width: 90px; height: 90px; }
+      .name, .tagline { font-size: 28px; }
+      .cs-label { font-size: 22px; }
+      .cs-date { font-size: 64px; }
     }
   </style>
 </head>
@@ -287,6 +296,8 @@
 
     <!-- Name -->
     <div class="name">AiGENTiA</div>
+
+    <hr class="rule-name">
 
     <!-- Tagline -->
     <div class="tagline">Intelligent Agency</div>
