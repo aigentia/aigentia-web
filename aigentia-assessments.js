@@ -970,7 +970,7 @@ function renderAssessment(id, container) {
         <div class="ag-assess-progress-wrap">
           <div class="ag-assess-progress-meta">
             <span class="ag-assess-q-num">Question ${currentQ + 1} of ${a.questions.length}</span>
-            <span class="ag-assess-cat" style="background:${a.cat_colors[q.cat] || '#5B6FA8'}">${q.cat}</span>
+            <span class="ag-assess-cat">${q.cat}</span>
           </div>
           <div class="ag-assess-progress-bar">
             <div class="ag-assess-progress-fill" style="width:${pct}%"></div>
@@ -1046,7 +1046,7 @@ function renderAssessment(id, container) {
                   <span class="ag-assess-dim-pct">${d.pct}%</span>
                 </div>
                 <div class="ag-assess-dim-track">
-                  <div class="ag-assess-dim-fill" style="width:${d.pct}%;background:${d.color}"></div>
+                  <div class="ag-assess-dim-fill" style="width:${d.pct}%"></div>
                 </div>
               </div>`).join('')}
           </div>
