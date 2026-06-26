@@ -81,10 +81,10 @@ class AigentiaApp {
     const animSrc   = effective === 'dark' ? 'aigentia-mark-animated-cream.svg' : 'aigentia-mark-animated-deep.svg';
 
     const sidebarImg = document.getElementById('sidebar-mark-img');
-    if (sidebarImg) sidebarImg.src = this._sidebarAnimating ? animSrc : staticSrc;
+    if (sidebarImg) sidebarImg.src = animSrc;
 
     const heroImg = document.getElementById('hero-mark-img');
-    if (heroImg) heroImg.src = staticSrc;
+    if (heroImg) heroImg.src = animSrc;
 
     const chatMarkImg = document.getElementById('chat-mark-img');
     if (chatMarkImg && chatMarkImg !== this._currentMarkImg) chatMarkImg.src = staticSrc;
@@ -574,7 +574,7 @@ class AigentiaApp {
     const staticSrc = effective === 'dark' ? 'aigentia-mark-cream.svg'          : 'aigentia-mark-deep.svg';
 
     const sidebarImg = document.getElementById('sidebar-mark-img');
-    if (sidebarImg) { sidebarImg.src = animSrc; this._sidebarAnimating = true; }
+    if (sidebarImg) sidebarImg.src = animSrc;
 
     const chatMarkImg = document.getElementById('chat-mark-img');
     if (chatMarkImg) {
@@ -585,12 +585,6 @@ class AigentiaApp {
   }
 
   stopLogoAnimation() {
-    const sidebarImg = document.getElementById('sidebar-mark-img');
-    if (sidebarImg && this._sidebarAnimating) {
-      const effective = document.documentElement.getAttribute('data-theme') || 'light';
-      sidebarImg.src = effective === 'dark' ? 'aigentia-mark-cream.svg' : 'aigentia-mark-deep.svg';
-      this._sidebarAnimating = false;
-    }
     if (this._currentMarkImg) {
       this._currentMarkImg.src = this._currentMarkStatic;
       this._currentMarkImg     = null;
