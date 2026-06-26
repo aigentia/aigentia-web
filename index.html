@@ -28,21 +28,13 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* ── Background canvas ──────────────────────────────────────── */
     body {
       background: var(--deep);
-      background-image:
-        radial-gradient(ellipse 80% 60% at 20% 50%, rgba(var(--deep-rgb), 0.9) 0%, transparent 70%),
-        radial-gradient(ellipse 60% 80% at 80% 30%, rgba(94, 75, 56, 0.08) 0%, transparent 60%),
-        radial-gradient(ellipse 40% 40% at 60% 80%, rgba(200, 169, 107, 0.04) 0%, transparent 50%);
       display: flex;
       height: 100vh;
       overflow: hidden;
     }
 
-    /* ══════════════════════════════════════════════════════════════
-       GLASSMORPHISM — Sidebar
-       ═══════════════════════════════════════════════════════════ */
     .sidebar {
       width: var(--sidebar-w);
       min-width: var(--sidebar-w);
@@ -51,20 +43,8 @@
       flex-direction: column;
       overflow: hidden;
       position: relative;
-
-      /* Glassmorphism core */
-      background: rgba(var(--deep-rgb), 0.55);
-      backdrop-filter: blur(24px) saturate(160%);
-      -webkit-backdrop-filter: blur(24px) saturate(160%);
-
-      /* Bronze glass border */
-      border-right: 1px solid rgba(var(--bronze-rgb), 0.35);
-
-      /* Depth shadow */
-      box-shadow:
-        4px 0 32px rgba(0, 0, 0, 0.35),
-        inset -1px 0 0 rgba(200, 169, 107, 0.08);
-
+      background: var(--deep);
+      border-right: 1px solid rgba(var(--bronze-rgb), 0.4);
       transition: width 0.3s ease;
       z-index: 10;
     }
@@ -75,14 +55,11 @@
     }
     .sidebar.collapsed .sidebar-labels,
     .sidebar.collapsed .social-row,
-    .sidebar.collapsed .explore-section,
     .sidebar.collapsed .ag-text-col {
       opacity: 0;
       pointer-events: none;
     }
-    .sidebar.collapsed .nav-label,
-    .sidebar.collapsed .explore-label,
-    .sidebar.collapsed .explore-list {
+    .sidebar.collapsed .nav-label {
       display: none;
     }
 
@@ -135,42 +112,18 @@
     }
     .ag-tag-sm span { display: inline-block; }
 
-    /* ══════════════════════════════════════════════════════════════
-       GLASSMORPHISM — Bronze Lines
-       ═══════════════════════════════════════════════════════════ */
     .bronze-rule {
       margin: 0 20px;
       height: 1px;
       border: none;
       flex-shrink: 0;
-
-      /* Glassmorphism bronze line: gradient shimmer + glow */
-      background: linear-gradient(
-        90deg,
-        transparent 0%,
-        rgba(var(--bronze-rgb), 0.4) 15%,
-        rgba(200, 169, 107, 0.85) 40%,
-        rgba(200, 169, 107, 1) 50%,
-        rgba(200, 169, 107, 0.85) 60%,
-        rgba(var(--bronze-rgb), 0.4) 85%,
-        transparent 100%
-      );
-      box-shadow:
-        0 0 6px rgba(200, 169, 107, 0.4),
-        0 0 12px rgba(var(--bronze-rgb), 0.15);
+      background: rgba(var(--bronze-rgb), 0.55);
     }
 
-    /* Inline bronze rule (used inside text column) */
     .bronze-rule-inline {
       height: 1px;
       border: none;
-      background: linear-gradient(
-        90deg,
-        rgba(200, 169, 107, 0.9) 0%,
-        rgba(var(--bronze-rgb), 0.5) 60%,
-        transparent 100%
-      );
-      box-shadow: 0 0 4px rgba(200, 169, 107, 0.35);
+      background: rgba(var(--bronze-rgb), 0.5);
       margin: 4px 0;
     }
 
@@ -248,44 +201,6 @@
     }
     .social-icon:hover { color: var(--bronze-gold); }
 
-    /* ── Explore section ───────────────────────────────────────── */
-    .explore-section {
-      padding: 8px 0 16px;
-      flex-shrink: 0;
-      transition: opacity 0.2s;
-    }
-
-    .explore-label {
-      font-family: "Inter", sans-serif;
-      font-size: 9px;
-      font-weight: 400;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: rgba(var(--cream-rgb), 0.35);
-      padding: 8px 22px 6px;
-    }
-
-    .explore-list { list-style: none; }
-
-    .explore-item {
-      font-family: "Inter", sans-serif;
-      font-size: 11.5px;
-      font-weight: 300;
-      color: rgba(var(--cream-rgb), 0.55);
-      padding: 6px 22px;
-      cursor: pointer;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      transition: color 0.15s, background 0.15s;
-      border-left: 2px solid transparent;
-    }
-    .explore-item:hover {
-      color: rgba(var(--cream-rgb), 0.9);
-      background: rgba(var(--cream-rgb), 0.05);
-      border-left-color: rgba(var(--bronze-rgb), 0.4);
-    }
-
     /* ── Toggle button ─────────────────────────────────────────── */
     .sidebar-toggle {
       position: absolute;
@@ -295,26 +210,20 @@
       width: 24px;
       height: 24px;
       border-radius: 50%;
-      background: rgba(var(--deep-rgb), 0.8);
-      backdrop-filter: blur(8px);
+      background: var(--deep);
       border: 1px solid rgba(var(--bronze-rgb), 0.4);
-      box-shadow: 0 0 8px rgba(200, 169, 107, 0.2);
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       color: rgba(var(--cream-rgb), 0.7);
       z-index: 20;
-      transition: background 0.2s, color 0.2s;
+      transition: color 0.2s;
     }
     .sidebar-toggle:hover {
-      background: rgba(var(--deep-rgb), 0.95);
-      color: var(--bronze-gold);
+      color: var(--cream);
     }
 
-    /* ══════════════════════════════════════════════════════════════
-       GLASSMORPHISM — Central Chat Canvas
-       ═══════════════════════════════════════════════════════════ */
     .canvas {
       flex: 1;
       height: 100vh;
@@ -322,18 +231,7 @@
       flex-direction: column;
       position: relative;
       overflow: hidden;
-
-      /* Glassmorphism core */
-      background: rgba(var(--cream-rgb), 0.62);
-      backdrop-filter: blur(20px) saturate(140%);
-      -webkit-backdrop-filter: blur(20px) saturate(140%);
-
-      /* Subtle inner glow and bronze top border */
-      border-top: 1px solid rgba(200, 169, 107, 0.25);
-      box-shadow:
-        inset 0 1px 0 rgba(200, 169, 107, 0.15),
-        inset 0 0 80px rgba(var(--cream-rgb), 0.2),
-        -2px 0 0 rgba(var(--bronze-rgb), 0.1);
+      background: var(--cream);
     }
 
     /* ── Chat thread ───────────────────────────────────────────── */
@@ -389,22 +287,11 @@
       line-height: 1.7;
     }
 
-    /* Glassmorphism bronze divider in canvas */
     .canvas-bronze-rule {
       width: 80px;
       height: 1px;
       border: none;
-      background: linear-gradient(
-        90deg,
-        transparent 0%,
-        rgba(200, 169, 107, 0.7) 30%,
-        rgba(200, 169, 107, 1) 50%,
-        rgba(200, 169, 107, 0.7) 70%,
-        transparent 100%
-      );
-      box-shadow:
-        0 0 8px rgba(200, 169, 107, 0.5),
-        0 0 16px rgba(var(--bronze-rgb), 0.2);
+      background: rgba(var(--bronze-rgb), 0.5);
     }
 
     /* ── Starter cards ─────────────────────────────────────────── */
@@ -496,26 +383,14 @@
       display: flex;
       align-items: center;
       gap: 10px;
-
-      /* Glassmorphism prompt bar */
-      background: rgba(var(--cream-rgb), 0.55);
-      backdrop-filter: blur(16px) saturate(120%);
-      -webkit-backdrop-filter: blur(16px) saturate(120%);
-      border: 1px solid rgba(var(--bronze-rgb), 0.3);
+      background: var(--cream);
+      border: 1px solid rgba(var(--bronze-rgb), 0.4);
       border-radius: 10px;
       padding: 12px 16px;
-      box-shadow:
-        0 4px 24px rgba(var(--deep-rgb), 0.08),
-        0 0 0 1px rgba(200, 169, 107, 0.06),
-        inset 0 1px 0 rgba(var(--cream-rgb), 0.6);
-      transition: border-color 0.2s, box-shadow 0.2s;
+      transition: border-color 0.2s;
     }
     .prompt-bar:focus-within {
-      border-color: rgba(200, 169, 107, 0.55);
-      box-shadow:
-        0 4px 24px rgba(var(--deep-rgb), 0.12),
-        0 0 0 3px rgba(200, 169, 107, 0.08),
-        inset 0 1px 0 rgba(var(--cream-rgb), 0.6);
+      border-color: rgba(var(--bronze-rgb), 0.7);
     }
 
     .prompt-input {
@@ -880,24 +755,6 @@
       </a>
     </div>
 
-    <!-- Bronze divider -->
-    <hr class="bronze-rule">
-
-    <!-- Explore section -->
-    <div class="explore-section">
-      <div class="explore-label sidebar-labels">Explore</div>
-      <ul class="explore-list sidebar-labels">
-        <li class="explore-item" data-key="what_is_agent_os">What is Agent OS?</li>
-        <li class="explore-item" data-key="agent_economy">The Agent Economy</li>
-        <li class="explore-item" data-key="what_is_ai_agent">What is an AI Agent?</li>
-        <li class="explore-item" data-key="ai_governance">AI Governance Basics</li>
-        <li class="explore-item" data-key="eu_ai_act">The EU AI Act</li>
-        <li class="explore-item" data-key="tokenization">What is Tokenization?</li>
-        <li class="explore-item" data-key="cost_of_ai">Cost of AI Transformation</li>
-        <li class="explore-item" data-key="ai_readiness_2025">AI Readiness in 2025</li>
-      </ul>
-    </div>
-
   </aside>
 
   <!-- ══ Central canvas ════════════════════════════════════════ -->
@@ -1129,10 +986,6 @@
     }
 
     document.querySelectorAll('.nav-item').forEach(el => {
-      el.addEventListener('click', () => handleNav(el.dataset.key));
-    });
-
-    document.querySelectorAll('.explore-item').forEach(el => {
       el.addEventListener('click', () => handleNav(el.dataset.key));
     });
 
