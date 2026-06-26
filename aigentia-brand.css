@@ -103,7 +103,7 @@
   top: var(--ag-accent-top);
   left: 0;
   right: 0;
-  height: 1px;
+  height: 2px;
   background: var(--ag-bronze);
   -webkit-transform: translateY(-0.5px);
   transform: translateY(-0.5px);

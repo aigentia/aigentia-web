@@ -12,29 +12,29 @@
   --msg-user-text:     var(--ag-cream);
   --msg-agent-text:    var(--ag-deep);
   --input-bg:          rgba(34, 29, 92, 0.04);
-  --input-border:      rgba(94, 75, 56, 0.4);
-  --input-focus:       rgba(94, 75, 56, 0.75);
+  --input-border:      rgba(94, 75, 56, 0.5);
+  --input-focus:       rgba(94, 75, 56, 0.85);
   --input-text:        var(--ag-deep);
   --nav-hover:         rgba(34, 29, 92, 0.05);
   --nav-active:        rgba(34, 29, 92, 0.09);
-  --divider:           rgba(94, 75, 56, 0.3);
+  --divider:           rgba(94, 75, 56, 0.5);
   --card-bg:           rgba(34, 29, 92, 0.04);
-  --card-border:       rgba(34, 29, 92, 0.12);
+  --card-border:       rgba(94, 75, 56, 0.45);
   --option-hover:      rgba(34, 29, 92, 0.06);
   --option-selected:   var(--ag-deep);
   --option-sel-text:   var(--ag-cream);
   --chip-bg:           transparent;
-  --chip-border:       rgba(94, 75, 56, 0.45);
+  --chip-border:       rgba(94, 75, 56, 0.55);
   --chip-text:         var(--ag-deep);
   --chip-hover:        rgba(34, 29, 92, 0.05);
   --send-bg:           var(--ag-deep);
   --send-text:         var(--ag-cream);
   --send-hover:        rgba(34, 29, 92, 0.82);
   --scrollbar-track:   rgba(34, 29, 92, 0.04);
-  --scrollbar-thumb:   rgba(94, 75, 56, 0.3);
-  --window-border:     rgba(94, 75, 56, 0.2);
+  --scrollbar-thumb:   rgba(94, 75, 56, 0.4);
+  --window-border:     rgba(94, 75, 56, 0.5);
   --window-shadow:     0 8px 48px rgba(34, 29, 92, 0.09), 0 1px 4px rgba(34, 29, 92, 0.05);
-  --sidebar-accent:    rgba(94, 75, 56, 0.45);
+  --sidebar-accent:    rgba(94, 75, 56, 0.7);
   --fg:            var(--canvas-text);
   --fg2:           var(--ag-bronze);
   --border:        var(--card-border);
@@ -52,28 +52,28 @@
   --msg-user-text:     var(--ag-cream);
   --msg-agent-text:    var(--ag-cream);
   --input-bg:          rgba(246, 241, 231, 0.06);
-  --input-border:      rgba(246, 241, 231, 0.2);
-  --input-focus:       rgba(246, 241, 231, 0.45);
+  --input-border:      rgba(94, 75, 56, 0.5);
+  --input-focus:       rgba(94, 75, 56, 0.85);
   --input-text:        var(--ag-cream);
   --nav-hover:         rgba(246, 241, 231, 0.07);
   --nav-active:        rgba(246, 241, 231, 0.12);
-  --divider:           rgba(94, 75, 56, 0.45);
+  --divider:           rgba(94, 75, 56, 0.6);
   --card-bg:           rgba(246, 241, 231, 0.04);
-  --card-border:       rgba(246, 241, 231, 0.13);
+  --card-border:       rgba(94, 75, 56, 0.5);
   --option-hover:      rgba(246, 241, 231, 0.07);
   --option-selected:   var(--ag-cream);
   --option-sel-text:   var(--ag-deep);
-  --chip-border:       rgba(246, 241, 231, 0.2);
+  --chip-border:       rgba(94, 75, 56, 0.55);
   --chip-text:         var(--ag-cream);
   --chip-hover:        rgba(246, 241, 231, 0.07);
   --send-bg:           var(--ag-cream);
   --send-text:         var(--ag-deep);
   --send-hover:        rgba(246, 241, 231, 0.85);
   --scrollbar-track:   rgba(246, 241, 231, 0.04);
-  --scrollbar-thumb:   rgba(94, 75, 56, 0.35);
-  --window-border:     rgba(94, 75, 56, 0.35);
+  --scrollbar-thumb:   rgba(94, 75, 56, 0.45);
+  --window-border:     rgba(94, 75, 56, 0.5);
   --window-shadow:     0 8px 48px rgba(0, 0, 0, 0.5);
-  --sidebar-accent:    rgba(94, 75, 56, 0.5);
+  --sidebar-accent:    rgba(94, 75, 56, 0.7);
   --fg:            var(--canvas-text);
   --fg2:           var(--ag-bronze);
   --border:        var(--card-border);
@@ -134,12 +134,12 @@ body {
 #sidebar .ag-name  { font-size: 22px; justify-content: flex-start; letter-spacing: 0.25em; width: auto; }
 #sidebar .ag-tag   { font-size: 9px;  justify-content: flex-start; letter-spacing: 0.25em; width: auto; }
 /* Accent in normal flex flow so its width = text column width = name/tag width */
-#sidebar .ag-accent { position: static; height: 1px; transform: none; }
+#sidebar .ag-accent { position: static; height: 2px; transform: none; }
 
 /* ── Sidebar dividers ─────────────────────────────────────── */
 .sidebar-rule {
   border: none;
-  border-top: 1px solid rgba(94, 75, 56, 0.2);
+  border-top: 2px solid rgba(94, 75, 56, 0.6);
   margin: 0 16px;
   flex-shrink: 0;
 }
@@ -225,7 +225,7 @@ body {
 #sidebar-footer {
   flex-shrink: 0;
   padding: 10px 16px 14px;
-  border-top: 1px solid rgba(94, 75, 56, 0.2);
+  border-top: 2px solid rgba(94, 75, 56, 0.6);
 }
 
 .theme-toggle {
@@ -309,7 +309,7 @@ body {
   justify-content: center;
   padding: 8px 5px;
   gap: 4px;
-  border-top: 1px solid rgba(94, 75, 56, 0.2);
+  border-top: 2px solid rgba(94, 75, 56, 0.6);
 }
 #sidebar.collapsed .social-link {
   width: 20px;
@@ -1056,7 +1056,7 @@ body {
     justify-content: center;
     padding: 8px 5px;
     gap: 4px;
-    border-top: 1px solid rgba(94, 75, 56, 0.2);
+    border-top: 2px solid rgba(94, 75, 56, 0.6);
   }
   #sidebar:not(.expanded) .social-link {
     width: 20px;
